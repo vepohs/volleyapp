@@ -1,4 +1,4 @@
-class RegisterFormState {
+class SignUpFormState {
 
   final String email;
   final String? emailError;
@@ -10,7 +10,7 @@ class RegisterFormState {
   final String? submitError;
 
 
-  RegisterFormState({
+  SignUpFormState({
     required this.email,
     required this.password,
     this.emailError,
@@ -20,7 +20,7 @@ class RegisterFormState {
     this.submitError,
   });
 
-  factory RegisterFormState.initial() => RegisterFormState(
+  factory SignUpFormState.initial() => SignUpFormState(
     email: '',
     password: '',
     emailError: null,
@@ -30,7 +30,7 @@ class RegisterFormState {
     submitError: null,
   );
 
-  RegisterFormState copyWith({
+  SignUpFormState copyWith({
     String? email,
     String? password,
     String? emailError,
@@ -39,7 +39,7 @@ class RegisterFormState {
     bool? isSuccess,
     String? submitError,
   }) {
-    return RegisterFormState(
+    return SignUpFormState(
       email: email ?? this.email,
       password: password ?? this.password,
       emailError: emailError,
