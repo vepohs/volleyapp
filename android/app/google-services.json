@@ -1,26 +1,124 @@
 {
   "project_info": {
-    "project_number": "293074804322",
-    "project_id": "volleyapp-fdd77",
-    "storage_bucket": "volleyapp-fdd77.firebasestorage.app"
+    "project_number": "269709383838",
+    "firebase_url": "https://voleyballapp-c7b9f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "voleyballapp-c7b9f",
+    "storage_bucket": "voleyballapp-c7b9f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:293074804322:android:b54fbf5eb6b0bd1867fb3b",
+        "mobilesdk_app_id": "1:269709383838:android:3c8e5ef1b8c99149a4838f",
         "android_client_info": {
           "package_name": "com.example.volleyapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdE75xQ4yYCCXGtrfYts_Jmcjq4wSmkZs"
+          "current_key": "AIzaSyCZZSJYxVyJUMGgBmKreD3xtQZVDt_EvrM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "269709383838-is3q6eftrs8k0u7v095smug6gvb53698.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.volleyballappV2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269709383838:android:6b2a8f79569488f5a4838f",
+        "android_client_info": {
+          "package_name": "com.example.volleyballapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269709383838-8av5j0d7ejuc5vu172c1brslj4skte6c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volleyballapp",
+            "certificate_hash": "58f035d5bba9ce0a6b85e2ea141d682b57a296f9"
+          }
+        },
+        {
+          "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZZSJYxVyJUMGgBmKreD3xtQZVDt_EvrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "269709383838-is3q6eftrs8k0u7v095smug6gvb53698.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.volleyballappV2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269709383838:android:5df21941c2408003a4838f",
+        "android_client_info": {
+          "package_name": "com.example.volleyballapp_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZZSJYxVyJUMGgBmKreD3xtQZVDt_EvrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "269709383838-is3q6eftrs8k0u7v095smug6gvb53698.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.volleyballappV2"
+              }
+            }
+          ]
         }
       }
     }
