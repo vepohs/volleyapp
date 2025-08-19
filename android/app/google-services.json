@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293074804322",
+    "project_id": "volleyapp-fdd77",
+    "storage_bucket": "volleyapp-fdd77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293074804322:android:b54fbf5eb6b0bd1867fb3b",
+        "android_client_info": {
+          "package_name": "com.example.volleyapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdE75xQ4yYCCXGtrfYts_Jmcjq4wSmkZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
