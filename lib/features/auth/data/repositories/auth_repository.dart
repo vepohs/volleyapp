@@ -63,5 +63,16 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(Failure('Sign in failed: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, AuthUser>> signInWithGoogle() async {
+    try {
+      final model = await _datasource.signInWithGoogle();
+      return Right(_mapper.from(model));
+    } catch (e) {
+      return Left(Failure('Sign in with Google failed: $e'));
+    }
+  }
+
 }
 

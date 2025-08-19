@@ -11,5 +11,7 @@ abstract class AuthDatasource {
 
   Future<AuthUserModel?> getCurrentUser() ;
 
-  Future signInWithEmail({required String email, required String password}) ;
+  Future<AuthUserModel> signInWithEmail({required String email, required String password}) ;
+
+  Future<AuthUserModel> signInWithGoogle() ;
 }

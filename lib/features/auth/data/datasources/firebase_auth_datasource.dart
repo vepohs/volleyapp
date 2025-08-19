@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:volleyapp/features/auth/data/datasources/auth_datasource.dart';
 import 'package:volleyapp/features/auth/data/mappers/auth_user_firebase_mapper.dart';
 import 'package:volleyapp/features/auth/data/models/auth_user_model.dart';
@@ -8,7 +9,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
   final FirebaseAuth firebaseAuth;
   final AuthUserFirebaseMapper mapper = AuthUserFirebaseMapper();
 
-  FirebaseAuthDatasource({ required this.firebaseAuth });
+  FirebaseAuthDatasource({required this.firebaseAuth});
 
   Future<AuthUserModel?> _reloadAndMap(User? firebaseUser) async {
     if (firebaseUser == null) return null;
@@ -98,4 +99,44 @@ class FirebaseAuthDatasource implements AuthDatasource {
       throw SignInWithEmailException("Erreur inconnue: $e");
     }
   }
+  @override
+  Future<AuthUserModel> signInWithGoogle() async {
+    try {
+      final googleUser = await GoogleSignIn.instance.authenticate();
+
+      final googleAuth = googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential =
+      await firebaseAuth.signInWithCredential(credential);
+
+      final firebaseUser = userCredential.user;
+      final userModel = await _reloadAndMap(firebaseUser);
+
+      if (userModel == null) {
+        throw const SignInWithGoogleException(
+          "Firebase user introuvable après connexion Google",
+        );
+      }
+
+      return userModel;
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        throw const SignInWithGoogleException(
+          "Connexion annulée par l’utilisateur",
+        );
+      }
+      throw SignInWithGoogleException(
+        "Google sign-in error: ${e.description}",
+      );
+    } on FirebaseAuthException catch (e) {
+      throw SignInWithGoogleException("FirebaseAuth error: ${e.message}");
+    } catch (e) {
+      throw SignInWithGoogleException("Erreur inconnue: $e");
+    }
+  }
+
 }

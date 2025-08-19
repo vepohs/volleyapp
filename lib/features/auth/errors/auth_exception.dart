@@ -20,3 +20,6 @@ class GetCurrentUserException extends AuthException {
 class SignInWithEmailException extends AuthException {
 const SignInWithEmailException(super.message);
 }
+class SignInWithGoogleException extends AuthException {
+  const SignInWithGoogleException(super.message);
+}
