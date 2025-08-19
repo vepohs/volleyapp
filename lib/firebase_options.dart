@@ -42,7 +42,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyDGff9eZ0RquXzfWErRVqMObPHyghMsVfo',
-    appId: '1:269709383838:web:52797f8b7c9f9a8da4838f',
+    appId: '1:269709383838:web:60558a8c42c43e8ba4838f',
     messagingSenderId: '269709383838',
     projectId: 'voleyballapp-c7b9f',
     authDomain: 'voleyballapp-c7b9f.firebaseapp.com',
@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCZZSJYxVyJUMGgBmKreD3xtQZVDt_EvrM',
-    appId: '1:269709383838:android:3c8e5ef1b8c99149a4838f',
+    appId: '1:269709383838:android:5df21941c2408003a4838f',
     messagingSenderId: '269709383838',
     projectId: 'voleyballapp-c7b9f',
     databaseURL: 'https://voleyballapp-c7b9f-default-rtdb.europe-west1.firebasedatabase.app',
@@ -61,36 +61,35 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDJrybIv3K7QUI9yKIVCQiGQ8kSMqYvUTA',
-    appId: '1:269709383838:ios:31e367d91ba1d52fa4838f',
+    appId: '1:269709383838:ios:54f5e2de09255bdea4838f',
     messagingSenderId: '269709383838',
     projectId: 'voleyballapp-c7b9f',
     databaseURL: 'https://voleyballapp-c7b9f-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'voleyballapp-c7b9f.firebasestorage.app',
     androidClientId: '269709383838-8av5j0d7ejuc5vu172c1brslj4skte6c.apps.googleusercontent.com',
-    iosClientId: '269709383838-1gigvmsvg0u9fdkleb9p0s7864fi6id6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.volleyapp',
+    iosClientId: '269709383838-is3q6eftrs8k0u7v095smug6gvb53698.apps.googleusercontent.com',
+    iosBundleId: 'com.example.volleyballappV2',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDJrybIv3K7QUI9yKIVCQiGQ8kSMqYvUTA',
-    appId: '1:269709383838:ios:31e367d91ba1d52fa4838f',
+    appId: '1:269709383838:ios:54f5e2de09255bdea4838f',
     messagingSenderId: '269709383838',
     projectId: 'voleyballapp-c7b9f',
     databaseURL: 'https://voleyballapp-c7b9f-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'voleyballapp-c7b9f.firebasestorage.app',
     androidClientId: '269709383838-8av5j0d7ejuc5vu172c1brslj4skte6c.apps.googleusercontent.com',
-    iosClientId: '269709383838-1gigvmsvg0u9fdkleb9p0s7864fi6id6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.volleyapp',
+    iosClientId: '269709383838-is3q6eftrs8k0u7v095smug6gvb53698.apps.googleusercontent.com',
+    iosBundleId: 'com.example.volleyballappV2',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyDGff9eZ0RquXzfWErRVqMObPHyghMsVfo',
-    appId: '1:269709383838:web:852e7304603c70d8a4838f',
+    appId: '1:269709383838:web:52797f8b7c9f9a8da4838f',
     messagingSenderId: '269709383838',
     projectId: 'voleyballapp-c7b9f',
     authDomain: 'voleyballapp-c7b9f.firebaseapp.com',
     databaseURL: 'https://voleyballapp-c7b9f-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'voleyballapp-c7b9f.firebasestorage.app',
   );
-
 }
