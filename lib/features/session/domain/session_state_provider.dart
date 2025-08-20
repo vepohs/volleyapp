@@ -1,29 +1,48 @@
 import 'dart:async';
-import 'package:volleyapp/features/auth/domain/ports/auth_state_source.dart';
-import 'session_status.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+enum SessionStatus { unknown, unauthenticated, authenticated }
 
-class SessionStateProvider {
-  final AuthStateSource _auth;
+abstract class SessionStateProvider {
+  Stream<SessionStatus> get status;
+  SessionStatus get current;
+  void dispose();
+}
+
+class FirebaseSessionStateProvider implements SessionStateProvider {
+  final _ctrl = StreamController<SessionStatus>.broadcast();
+  late final StreamSubscription<User?> _sub;
   SessionStatus _current = SessionStatus.unknown;
-  SessionStatus get current => _current;
 
-  late final Stream<SessionStatus> status;
+  FirebaseSessionStateProvider() {
+    // Seed immédiat (important pour ne pas bloquer indéfiniment sur /splash)
+    final user = FirebaseAuth.instance.currentUser;
+    _set(user == null ? SessionStatus.unauthenticated : SessionStatus.authenticated);
 
-  SessionStateProvider(this._auth) {
-    status = _mapToStatus();
+    // Ecoute des changements Firebase
+    _sub = FirebaseAuth.instance.authStateChanges().listen((u) {
+      _set(u == null ? SessionStatus.unauthenticated : SessionStatus.authenticated);
+    }, onError: (_) {
+      _set(SessionStatus.unauthenticated);
+    });
   }
 
-  Stream<SessionStatus> _mapToStatus() async* {
-
-    final userOpt = _auth.getCurrentUser();
-    _current = userOpt.isSome() ? SessionStatus.authenticated : SessionStatus.unauthenticated;
-    yield _current;
-
-
-    await for (final user in _auth.changes) {
-      _current = (user == null) ? SessionStatus.unauthenticated : SessionStatus.authenticated;
-      yield _current;
+  void _set(SessionStatus s) {
+    if (_current != s) {
+      _current = s;
+      _ctrl.add(_current);
     }
+  }
+
+  @override
+  Stream<SessionStatus> get status => _ctrl.stream;
+
+  @override
+  SessionStatus get current => _current;
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    _ctrl.close();
   }
 }
