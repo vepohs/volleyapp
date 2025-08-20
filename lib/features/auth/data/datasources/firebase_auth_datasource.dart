@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:volleyapp/features/auth/data/datasources/auth_datasource.dart';
 import 'package:volleyapp/features/auth/data/mappers/auth_user_firebase_mapper.dart';
 import 'package:volleyapp/features/auth/data/models/auth_user_model.dart';
@@ -99,19 +101,28 @@ class FirebaseAuthDatasource implements AuthDatasource {
       throw SignInWithEmailException("Erreur inconnue: $e");
     }
   }
+
   @override
   Future<AuthUserModel> signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn.instance.authenticate();
+      UserCredential userCredential;
 
-      final googleAuth = googleUser.authentication;
+      if (kIsWeb) {
+        // 🔹 Web → signInWithPopup directement
+        final googleProvider = GoogleAuthProvider();
+        userCredential = await firebaseAuth.signInWithPopup(googleProvider);
+      } else {
+        // 🔹 Mobile → utiliser GoogleSignIn.authenticate()
+        final googleUser = await GoogleSignIn.instance.authenticate();
 
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
+        final googleAuth = googleUser.authentication;
 
-      final userCredential =
-      await firebaseAuth.signInWithCredential(credential);
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken, // ✅ accessToken supprimé
+        );
+
+        userCredential = await firebaseAuth.signInWithCredential(credential);
+      }
 
       final firebaseUser = userCredential.user;
       final userModel = await _reloadAndMap(firebaseUser);
@@ -138,5 +149,4 @@ class FirebaseAuthDatasource implements AuthDatasource {
       throw SignInWithGoogleException("Erreur inconnue: $e");
     }
   }
-
 }
