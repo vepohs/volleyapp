@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,9 @@ import 'package:volleyapp/features/auth/domain/use_cases/sign_up_with_email/sign
 import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_bloc.dart';
 import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_event.dart';
 import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_state.dart';
+import 'package:volleyapp/features/auth/presentation/widgets/default_submit_sign_up_btn.dart';
+import 'package:volleyapp/shared/ui/widgets/email_field.dart';
+import 'package:volleyapp/shared/ui/widgets/password_field.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -28,10 +30,10 @@ class _SignUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpFormBloc, SignUpFormState>(
-      listenWhen: (prev, curr) => prev.isSuccess != curr.isSuccess || prev.submitError != curr.submitError,
+      listenWhen: (prev, curr) =>
+      prev.isSuccess != curr.isSuccess || prev.submitError != curr.submitError,
       listener: (context, state) {
         if (state.isSuccess == true) {
-
           context.go('/home');
         } else if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -40,59 +42,30 @@ class _SignUpView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Créer un compte')),
+        appBar: AppBar(title: const Text("Connexion")),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BlocBuilder<SignUpFormBloc, SignUpFormState>(
-            buildWhen: (p, c) =>
-            p.email != c.email ||
-                p.password != c.password ||
-                p.emailError != c.emailError ||
-                p.passwordError != c.passwordError ||
-                p.isSubmitting != c.isSubmitting,
-            builder: (context, state) {
-              final bloc = context.read<SignUpFormBloc>();
-              return Column(
-                children: [
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      errorText: state.emailError,
-                    ),
-                    onChanged: (v) => bloc.add(EmailChanged(v)),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Mot de passe',
-                      errorText: state.passwordError,
-                    ),
-                    onChanged: (v) => bloc.add(PasswordChanged(v)),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: state.isSubmitting
-                          ? null
-                          : () => bloc.add(SignUpSubmitted()),
-                      child: state.isSubmitting
-                          ? const SizedBox(
-                        height: 20, width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                          : const Text('Créer mon compte'),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => context.go('/login'),//todo
-                    child: const Text('Déjà un compte ? Se connecter'),
-                  ),
-                ],
-              );
-            },
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              EmailField<SignUpFormBloc,SignUpFormState>(
+                onChanged: (value) {
+                  context.read<SignUpFormBloc>().add(EmailChanged(value));
+                },
+              ),
+              const SizedBox(height: 16),
+              PasswordField<SignUpFormBloc, SignUpFormState>(
+                  onChanged: (value) {
+                    context.read<SignUpFormBloc>().add(PasswordChanged(value));
+                  }
+              ),
+              const SizedBox(height: 24),
+              DefaultSubmitSignUpBtn(),
+              ElevatedButton(
+                onPressed: () =>
+                    context.go('/login'),
+                child: const Text("Login Screen"),
+              ),
+            ],
           ),
         ),
       ),

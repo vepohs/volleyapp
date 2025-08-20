@@ -16,7 +16,7 @@ class SignUpFormBloc extends Bloc<SignUpFormEvent, SignUpFormState>{
   {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
-    on<SignUpSubmitted>(_onRegisterSubmitted);
+    on<SignUpSubmitted>(_onDefaultSignUpSubmitted);
   }
 
   void _onEmailChanged(EmailChanged event, Emitter<SignUpFormState> emit){
@@ -37,7 +37,7 @@ class SignUpFormBloc extends Bloc<SignUpFormEvent, SignUpFormState>{
     ));
   }
 
-  Future<void> _onRegisterSubmitted(
+  Future<void> _onDefaultSignUpSubmitted(
       SignUpSubmitted event, Emitter<SignUpFormState> emit) async {
 
     if (state.emailError != null || state.passwordError != null) return;

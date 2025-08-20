@@ -1,12 +1,23 @@
-class SignUpFormState {
+import 'package:volleyapp/core/form/states/email_state.dart';
+import 'package:volleyapp/core/form/states/password_state.dart';
+import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_event.dart';
 
+class SignUpFormState implements EmailState, PasswordState {
+
+  @override
   final String email;
+  @override
   final String? emailError;
-  final String password;
-  final String? passwordError;
-  final bool isSubmitting;
-  final bool? isSuccess;
 
+  @override
+  final String password;
+  @override
+  final String? passwordError;
+
+  @override
+  final bool isSubmitting;
+
+  final bool? isSuccess;
   final String? submitError;
 
 
