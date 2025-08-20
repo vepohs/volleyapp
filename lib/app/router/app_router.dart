@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:volleyapp/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:volleyapp/features/auth/presentation/pages/splash_page.dart';
 
 
@@ -11,7 +12,7 @@ class AppRoutes {
 
 final router = GoRouter(
   routes: [
-    GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashPage()),
+    GoRoute(path: AppRoutes.splash, builder: (_, __) => const SignUpPage()),
   ],
 );
 
