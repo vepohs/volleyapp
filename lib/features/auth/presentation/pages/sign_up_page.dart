@@ -42,7 +42,7 @@ class _SignUpView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Connexion")),
+        appBar: AppBar(title: const Text("Inscription")),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
