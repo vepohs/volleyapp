@@ -60,6 +60,7 @@ class _SignUpView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               DefaultSubmitSignUpBtn(),
+
               ElevatedButton(
                 onPressed: () =>
                     context.go('/login'),

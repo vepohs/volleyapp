@@ -10,21 +10,26 @@ class PasswordField<TBloc extends BlocBase<TState>,TState extends PasswordState>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TBloc, TState>(
-      buildWhen: (previous, current) =>
-      previous.password != current.password ||
-      previous.passwordError != current.passwordError ||
-      previous.isSubmitting != current.isSubmitting,
-
-      builder: (context, state) {
+    return BlocSelector<
+        TBloc,
+        TState,
+        ({String password, String? error, bool submitting})>(
+      selector: (s) => (
+      password: s.password,
+      error: s.passwordError,
+      submitting: s.isSubmitting,
+      ),
+      builder: (_, slice) {
         return TextFormField(
-          initialValue: state.password,
+          enabled: !slice.submitting,
+          initialValue: slice.password,
           onChanged: onChanged,
-          enabled: !state.isSubmitting,
           obscureText: true,
+          textInputAction: TextInputAction.done,
+          autofillHints: const [AutofillHints.password],
           decoration: InputDecoration(
             labelText: "Mot de passe",
-            errorText: state.passwordError,
+            errorText: slice.error,
           ),
         );
       },

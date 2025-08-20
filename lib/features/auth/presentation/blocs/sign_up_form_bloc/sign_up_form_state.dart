@@ -32,8 +32,8 @@ class SignUpFormState implements EmailState, PasswordState {
   });
 
   factory SignUpFormState.initial() => SignUpFormState(
-    email: '',
-    password: '',
+    email: 'test.test@test.com',
+    password: 'azertyR',
     emailError: null,
     passwordError: null,
     isSubmitting: false,
@@ -60,5 +60,4 @@ class SignUpFormState implements EmailState, PasswordState {
       submitError: submitError,
     );
   }
-
 }

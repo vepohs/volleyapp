@@ -11,18 +11,19 @@ class EmailField<TBloc extends BlocBase<TState>, TState extends EmailState>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TBloc, TState>(
-      buildWhen: (prev, curr) =>
-      prev.email != curr.email || prev.emailError != curr.emailError || prev.isSubmitting !=curr.isSubmitting,
-      builder: (context, state) {
+    return BlocSelector<TBloc, TState, ({String email, String? error, bool submitting})>(
+      selector: (state) => (email: state.email, error: state.emailError, submitting: state.isSubmitting),
+      builder: (_, slice) {
         return TextFormField(
-          enabled: !state.isSubmitting,
-          initialValue: state.email,
+          enabled: !slice.submitting,
+          initialValue: slice.email,
           onChanged: onChanged,
-          keyboardType: TextInputType.emailAddress,
+          obscureText: false,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.email],
           decoration: InputDecoration(
             labelText: "Adresse e-mail",
-            errorText: state.emailError,
+            errorText: slice.error,
           ),
         );
       },
