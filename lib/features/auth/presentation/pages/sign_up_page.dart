@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:volleyapp/app/router/app_router.dart';
-import 'package:volleyapp/core/di/service_locator.dart';
+import 'package:volleyapp/app/di/service_locator.dart';
 import 'package:volleyapp/features/auth/domain/use_cases/sign_up_with_email/sign_up_with_email_usecase.dart';
 import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_bloc.dart';
 import 'package:volleyapp/features/auth/presentation/blocs/sign_up_form_bloc/sign_up_form_event.dart';
@@ -24,7 +23,7 @@ class SignUpPage extends StatelessWidget {
 }
 
 class _SignUpView extends StatelessWidget {
-  const _SignUpView({super.key});
+  const _SignUpView();
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +31,8 @@ class _SignUpView extends StatelessWidget {
       listenWhen: (prev, curr) => prev.isSuccess != curr.isSuccess || prev.submitError != curr.submitError,
       listener: (context, state) {
         if (state.isSuccess == true) {
-          // Navigation go_router
-          context.go(AppRoutes.home);
+
+          context.go('/home');
         } else if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.submitError!)),
@@ -88,7 +87,7 @@ class _SignUpView extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.login),
+                    onPressed: () => context.go('/login'),//todo
                     child: const Text('Déjà un compte ? Se connecter'),
                   ),
                 ],
