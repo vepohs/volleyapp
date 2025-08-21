@@ -74,5 +74,16 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, Unit>> signOut() async {
+    try {
+      await _datasource.signOut();
+      return const Right(unit);
+    } catch (e) {
+      return Left(Failure('Sign out failed: $e'));
+    }
+  }
+
+
 }
 

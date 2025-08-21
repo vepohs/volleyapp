@@ -14,9 +14,6 @@ class UserJsonMapper implements BaseMapper<Map<String, dynamic>, UserModel> {
       birthdate: (input[FirestoreUserFields.birthdate] as Timestamp).toDate(),
       avatarUrl: input[FirestoreUserFields.avatarUrl] as String?,
       createdAt: (input[FirestoreUserFields.createdAt] as Timestamp).toDate(),
-      roleId: input[FirestoreUserFields.roleId] as String,
-      clubId: input[FirestoreUserFields.clubId] as String?,
-      teamId: input[FirestoreUserFields.teamId] as String?,
     );
   }
 
@@ -30,9 +27,6 @@ class UserJsonMapper implements BaseMapper<Map<String, dynamic>, UserModel> {
       FirestoreUserFields.birthdate: output.birthdate,
       FirestoreUserFields.avatarUrl: output.avatarUrl,
       FirestoreUserFields.createdAt: output.createdAt,
-      FirestoreUserFields.roleId: output.roleId,
-      FirestoreUserFields.clubId: output.clubId,
-      FirestoreUserFields.teamId: output.teamId,
     };
   }
 }

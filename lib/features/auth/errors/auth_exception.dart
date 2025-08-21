@@ -23,3 +23,6 @@ const SignInWithEmailException(super.message);
 class SignInWithGoogleException extends AuthException {
   const SignInWithGoogleException(super.message);
 }
+class SignOutException extends AuthException {
+  const SignOutException(super.message);
+}

@@ -25,9 +25,6 @@ class UserMapper implements BaseMapper<UserModel, User> {
       birthdate: output.birthdate,
       avatarUrl: output.avatarUrl,
       createdAt: DateTime.now(),
-      roleId: 'user',
-      clubId: null,
-      teamId: null,
     );
   }
 }

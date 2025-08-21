@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -149,4 +150,18 @@ class FirebaseAuthDatasource implements AuthDatasource {
       throw SignInWithGoogleException("Erreur inconnue: $e");
     }
   }
+
+  @override
+  Future<Unit> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+
+      return unit;
+    } on FirebaseAuthException catch (e) {
+      throw SignOutException("FirebaseAuth error: ${e.message}");
+    } catch (e) {
+      throw SignOutException("Erreur inattendue: $e");
+    }
+  }
+
 }

@@ -7,7 +7,6 @@ abstract class UserDatasource {
     required String lastname,
     required String email,
     required DateTime birthdate,
-    required String roleId,
     required String? avatarUrl,
 
   });

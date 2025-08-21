@@ -6,9 +6,6 @@ class UserModel {
   final DateTime birthdate;
   final String? avatarUrl;
   final DateTime createdAt;
-  final String roleId;
-  final String? clubId;
-  final String? teamId;
 
   UserModel({
     required this.id,
@@ -18,8 +15,5 @@ class UserModel {
     required this.birthdate,
     this.avatarUrl,
     required this.createdAt,
-    required this.roleId,
-    this.clubId,
-    this.teamId,
   });
 }

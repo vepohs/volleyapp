@@ -29,7 +29,7 @@ class User {
   bool get isProfileComplete {
     return firstname.isNotEmpty &&
         lastname.isNotEmpty &&
-        email.isNotEmpty;
+        email.isNotEmpty ;
   }
 
   @override

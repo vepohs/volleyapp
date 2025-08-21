@@ -21,9 +21,6 @@ class FirebaseUserDatasource implements UserDatasource {
     required String email,
     required DateTime birthdate,
     String? avatarUrl,
-    required String roleId,
-    String? clubId,
-    String? teamId,
   }) async {
     try {
       final userModel = UserModel(
@@ -34,9 +31,6 @@ class FirebaseUserDatasource implements UserDatasource {
         birthdate: birthdate,
         avatarUrl: avatarUrl,
         createdAt: DateTime.now(),
-        roleId: roleId,
-        clubId: clubId,
-        teamId: teamId,
       );
 
       final data = mapper.to(userModel);

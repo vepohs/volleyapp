@@ -1,0 +1,1 @@
+class TeamMembershipException implements Exception {}

@@ -1,4 +1,5 @@
 
+import 'package:dartz/dartz.dart';
 import 'package:volleyapp/features/auth/data/models/auth_user_model.dart';
 
 abstract class AuthDatasource {
@@ -14,4 +15,6 @@ abstract class AuthDatasource {
   Future<AuthUserModel> signInWithEmail({required String email, required String password}) ;
 
   Future<AuthUserModel> signInWithGoogle() ;
+
+  Future<Unit> signOut();
 }

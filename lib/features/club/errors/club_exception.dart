@@ -1,0 +1,1 @@
+class ClubException implements Exception {}

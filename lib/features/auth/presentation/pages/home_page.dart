@@ -6,7 +6,6 @@ class HomePage extends StatelessWidget {
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    // Pas de context.go ici : la redirection sera déclenchée par le stream d'auth.
   }
 
   @override

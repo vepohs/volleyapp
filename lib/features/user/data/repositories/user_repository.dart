@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:volleyapp/core/errors/failure.dart';
 import 'package:volleyapp/features/user/data/datasources/user_datasource.dart';
 import 'package:volleyapp/features/user/data/mappers/user_mapper.dart';
-import 'package:volleyapp/features/user/domain/entities/roles.dart';
 import 'package:volleyapp/features/user/domain/entities/user.dart';
 import 'package:volleyapp/features/user/domain/repositories/user_repository.dart';
 
@@ -28,7 +27,6 @@ class UserRepositoryImpl implements UserRepository {
         lastname: lastname,
         email: email,
         birthdate: birthdate,
-        roleId: Roles.user.id,
         avatarUrl: avatarUrl,
       );
       return Right(_mapper.from(model));
