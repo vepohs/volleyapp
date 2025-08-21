@@ -36,7 +36,6 @@ class ClubRepositoryImpl implements ClubRepository {
       final models = await _dataSource.getClubsFilteredByName(query);
 
       final entities = models.map(_mapper.from).toList();
-
       return Right(entities);
     } catch (e) {
       return Left(Failure('Get clubs filtered by name failed: $e'));

@@ -9,7 +9,7 @@ class Role {
     required this.permissions,
   });
 
-  static const president = Role(
+  static const presidenggggg = Role(
     id: "president",
     name: "Président du club",
     permissions: [
@@ -38,7 +38,7 @@ class Role {
     permissions: [],
   );
 
-  static const all = [president, coach, player, guest];
+  static const all = [presidenggggg, coach, player, guest];
 
   static Role fromId(String id) {
     return all.firstWhere(
