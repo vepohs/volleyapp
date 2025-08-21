@@ -12,7 +12,7 @@ class ClubTypeAheadField extends StatefulWidget {
 }
 
 class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
-  TextEditingController? _taController; // controller fourni par TypeAhead
+  TextEditingController? _controllerFromTypeAhead;
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +21,16 @@ class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
     return BlocBuilder<ClubSearchBloc, ClubSearchState>(
       builder: (context, state) {
         return TypeAheadField<Club>(
-          // 1) Le champ (⚠️ utiliser le controller fourni)
-          builder: (context, controller, focusNode) {
-            // mémorise le controller pour onSelected
-            _taController ??= controller;
+          builder: (_, controller, focusNode) {
+            _controllerFromTypeAhead = controller;
             return TextField(
-              controller: controller,            // ← utiliser celui de TypeAhead
+              controller: controller,
               focusNode: focusNode,
               decoration: InputDecoration(
                 labelText: 'Rechercher un club',
-               // suffixIcon: _suffix(state),
               ),
             );
           },
-
-          // 2) Recherche via le BLoC
           suggestionsCallback: (pattern) async {
             final p = pattern.trim();
             bloc.add(SearchClubsChanged(p));
@@ -49,24 +44,12 @@ class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
             return s.results;
           },
 
-          // 3) Items + sélection
-          itemBuilder: (context, club) => ListTile(title: Text(club.name)),
+          itemBuilder: (_, club) => ListTile(title: Text(club.name)),
           onSelected: (club) {
             bloc.add(ClubSelected(club));
-            _taController?.text = club.name;   // ← refléter la sélection
+            _controllerFromTypeAhead?.text = club.name;
             FocusScope.of(context).unfocus();
           },
-
-          // 4) Loader / vide / erreur
-          // loadingBuilder: (context) {
-          //   if (state.status == ClubSearchStatus.loading) {
-          //     return const Padding(
-          //       padding: EdgeInsets.all(12),
-          //       child: Center(child: CircularProgressIndicator()),
-          //     );
-          //   }
-          //   return const SizedBox.shrink();
-          // },
 
           emptyBuilder: (context) {
             if (state.status == ClubSearchStatus.failure) {
