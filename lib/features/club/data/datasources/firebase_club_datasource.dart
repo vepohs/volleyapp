@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:volleyapp/core/constants/firestore_collections.dart';
-import 'package:volleyapp/core/constants/firestore_fields.dart';
 import 'package:volleyapp/features/club/data/datasources/club_datasource.dart';
 import 'package:volleyapp/features/club/data/mappers/club_json_mapper.dart';
 import 'package:volleyapp/features/club/data/models/club_model.dart';
@@ -39,17 +38,19 @@ class FirebaseClubDatasource implements ClubDataSource {
   @override
   Future<List<ClubModel>> getClubsFilteredByName(String query) async {
     try {
-      final snapshot = await _clubsCol
-          .orderBy(FirestoreClubFields.name)
-          .startAt([query])
-          .endAt(["$query\uf8ff"])
-          .get();
+      final snapshot = await _clubsCol.get();
 
-      return snapshot.docs.map((doc) => _jsonMapper.from(doc.data())).toList();
+      final lowerQuery = query.toLowerCase();
+
+      return snapshot.docs
+          .map((doc) => _jsonMapper.from(doc.data()))
+          .where((club) => club.name.toLowerCase().contains(lowerQuery))
+          .toList();
     } on FirebaseException catch (e) {
       throw GetClubsFilteredByNameException("Firestore error: ${e.message}");
     } catch (e) {
       throw GetClubsFilteredByNameException("Erreur inattendue: $e");
     }
   }
+
 }
