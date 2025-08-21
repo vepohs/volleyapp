@@ -29,4 +29,17 @@ class ClubRepositoryImpl implements ClubRepository {
       return Left(Failure('Add club failed: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Club>>> getClubsFilteredByName(String query) async {
+    try {
+      final models = await _dataSource.getClubsFilteredByName(query);
+
+      final entities = models.map(_mapper.from).toList();
+
+      return Right(entities);
+    } catch (e) {
+      return Left(Failure('Get clubs filtered by name failed: $e'));
+    }
+  }
 }

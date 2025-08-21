@@ -1,5 +1,6 @@
 abstract class ClubException implements Exception {
   final String message;
+
   const ClubException(this.message);
 
   @override
@@ -16,4 +17,8 @@ class GetClubByIdException extends ClubException {
 
 class WatchClubByIdException extends ClubException {
   const WatchClubByIdException(super.message);
+}
+
+class GetClubsFilteredByNameException extends ClubException {
+  const GetClubsFilteredByNameException(super.message);
 }
