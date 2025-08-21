@@ -13,3 +13,10 @@ class FirestoreClubFields {
   static const String avatarUrl = 'avatarUrl';
   static const String createdAt = 'createdAt';
 }
+class FirestoreClubMembershipFields {
+  static const String id = 'id';
+  static const String clubId = 'clubId';
+  static const String userId = 'userId';
+  static const String roleId = 'roleId';
+  static const String joinedAt = 'joinedAt';
+}

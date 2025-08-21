@@ -1,17 +1,14 @@
 import 'package:volleyapp/features/club_membership/domain/entities/role.dart';
 
-class ClubMembership {
-  final String id;
+class AddClubMembershipParams  {
   final String clubId;
   final String userId;
   final Role role;
-  final DateTime joinedAt;
 
-  const ClubMembership({
-    required this.id,
+  const AddClubMembershipParams({
     required this.clubId,
     required this.userId,
     required this.role,
-    required this.joinedAt,
   });
+
 }
