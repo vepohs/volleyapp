@@ -28,6 +28,7 @@ class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
               focusNode: focusNode,
               decoration: InputDecoration(
                 labelText: 'Rechercher un club',
+                suffixIcon: _suffix(state),
               ),
             );
           },
