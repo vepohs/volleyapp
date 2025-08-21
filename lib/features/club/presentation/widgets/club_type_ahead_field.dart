@@ -30,16 +30,14 @@ class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
               focusNode: focusNode,
               decoration: InputDecoration(
                 labelText: 'Rechercher un club',
-                suffixIcon: _suffix(state),
+               // suffixIcon: _suffix(state),
               ),
-              onChanged: (text) => bloc.add(SearchClubsChanged(text)), // optionnel
             );
           },
 
           // 2) Recherche via le BLoC
           suggestionsCallback: (pattern) async {
             final p = pattern.trim();
-            if (p.isEmpty) return const <Club>[];
             bloc.add(SearchClubsChanged(p));
             final s = await bloc.stream.firstWhere(
                   (s) =>
@@ -60,15 +58,16 @@ class _ClubTypeAheadFieldState extends State<ClubTypeAheadField> {
           },
 
           // 4) Loader / vide / erreur
-          loadingBuilder: (context) {
-            if (state.status == ClubSearchStatus.loading) {
-              return const Padding(
-                padding: EdgeInsets.all(12),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-            return const SizedBox.shrink();
-          },
+          // loadingBuilder: (context) {
+          //   if (state.status == ClubSearchStatus.loading) {
+          //     return const Padding(
+          //       padding: EdgeInsets.all(12),
+          //       child: Center(child: CircularProgressIndicator()),
+          //     );
+          //   }
+          //   return const SizedBox.shrink();
+          // },
+
           emptyBuilder: (context) {
             if (state.status == ClubSearchStatus.failure) {
               return Padding(

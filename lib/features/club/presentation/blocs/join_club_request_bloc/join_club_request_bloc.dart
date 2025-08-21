@@ -68,15 +68,21 @@ class ClubSearchBloc extends Bloc<ClubEvent, ClubSearchState> {
         ));
       },
           (results) {
-            print("pas la taille qui compte");
-            print(results[0].name);
+
         if (results.isEmpty) {
+          print("NORMALEMENT CEST VIDE");
+          print(results.length);
           emit(state.copyWith(
             status: ClubSearchStatus.empty,
             results: const [],
             error: null,
           ));
         } else {
+          print("pas la taille qui compte");
+          print(results.length);
+          for(int i =0;i<results.length; i++){
+            print(results[i].name);
+          }
           emit(state.copyWith(
             status: ClubSearchStatus.success,
             results: results,
