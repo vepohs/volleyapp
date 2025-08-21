@@ -16,18 +16,20 @@ class FirebaseClubDatasource implements ClubDataSource {
 
   @override
   Future<ClubModel> addClub({
-    required String id,
     required String name,
     String? avatarUrl,
   }) async {
     try {
+      final docRef = _clubsCol.doc();
+      final generatedId = docRef.id;
+
       final club = ClubModel(
-        id: id,
+        id: generatedId,
         name: name,
         avatarUrl: avatarUrl ?? '',
       );
 
-      await _clubsCol.doc(id).set(_jsonMapper.to(club));
+      await docRef.set(_jsonMapper.to(club));
 
       return club;
     } on FirebaseException catch (e) {

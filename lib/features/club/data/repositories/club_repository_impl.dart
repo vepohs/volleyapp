@@ -13,13 +13,11 @@ class ClubRepositoryImpl implements ClubRepository {
 
   @override
   Future<Either<Failure, Club>> addClub({
-    required String id,
     required String name,
     String? avatarUrl,
   }) async {
     try {
       final model = await _dataSource.addClub(
-        id: id,
         name: name,
         avatarUrl: avatarUrl,
       );

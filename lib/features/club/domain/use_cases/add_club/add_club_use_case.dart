@@ -13,7 +13,6 @@ class AddClubUseCase implements UseCase<Club, AddClubParams> {
   @override
   Future<Either<Failure, Club>> call(AddClubParams params) {
     return repository.addClub(
-      id: params.id,
       name: params.name,
       avatarUrl: params.avatarUrl,
     );
