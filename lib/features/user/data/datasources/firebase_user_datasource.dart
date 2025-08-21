@@ -3,6 +3,7 @@ import 'package:volleyapp/core/constants/firestore_collections.dart';
 import 'package:volleyapp/features/user/data/datasources/user_datasource.dart';
 import 'package:volleyapp/features/user/data/mappers/user_json_mapper.dart';
 import 'package:volleyapp/features/user/data/models/user_model.dart';
+import 'package:volleyapp/features/user/errors/user_exceptions.dart';
 
 class FirebaseUserDatasource implements UserDatasource {
   final FirebaseFirestore firestore;
@@ -38,8 +39,10 @@ class FirebaseUserDatasource implements UserDatasource {
       await _usersCol.doc(id).set(data);
 
       return userModel;
+    } on FirebaseException catch (e) {
+      throw AddUserException("Firestore error: ${e.message}");
     } catch (e) {
-      throw Exception("Erreur Firestore addUser: $e");
+      throw AddUserException("Erreur inattendue: $e");
     }
   }
 
@@ -53,19 +56,26 @@ class FirebaseUserDatasource implements UserDatasource {
       final data = doc.data();
       if (data == null) return null;
 
-      return mapper.from(data);
+      return mapper.from({...data, 'id': id});
+    } on FirebaseException catch (e) {
+      throw GetUserByIdException("Firestore error: ${e.message}");
     } catch (e) {
-      throw Exception("Erreur Firestore getUserById: $e");
+      throw GetUserByIdException("Erreur inattendue: $e");
     }
   }
+
   @override
   Stream<UserModel?> watchUserById({required String id}) {
-    return _usersCol.doc(id).snapshots().map((doc) {
-      if (!doc.exists) return null;
-      final data = doc.data();
-      if (data == null) return null;
-      final withId = {...data, 'id': id};
-      return mapper.from(withId);
-    });
+    try {
+      return _usersCol.doc(id).snapshots().map((doc) {
+        if (!doc.exists) return null;
+        final data = doc.data();
+        if (data == null) return null;
+        final withId = {...data, 'id': id};
+        return mapper.from(withId);
+      });
+    } catch (e) {
+      throw WatchUserByIdException("Erreur inattendue: $e");
+    }
   }
 }

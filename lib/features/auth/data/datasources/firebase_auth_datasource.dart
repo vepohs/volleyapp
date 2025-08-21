@@ -119,7 +119,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
         final googleAuth = googleUser.authentication;
 
         final credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, // ✅ accessToken supprimé
+          idToken: googleAuth.idToken,
         );
 
         userCredential = await firebaseAuth.signInWithCredential(credential);
