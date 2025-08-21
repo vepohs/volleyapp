@@ -1,11 +1,7 @@
 class Club {
   final String id;
   final String name;
-  final DateTime createdAt;
+  final String avatarUrl;
 
-  const Club({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-  });
+  const Club({required this.id, required this.name, required this.avatarUrl});
 }

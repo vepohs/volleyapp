@@ -66,11 +66,6 @@ GoRouter createRouter(SessionStateProvider session) {
         path: AppRoute.home.path,
         builder: (_, __) => const HomePage(),
       ),
-      // GoRoute(
-      //   name: AppRoute.error.name,
-      //   path: AppRoute.error.path,
-      //   builder: (_, __) => const ErrorPage(),
-      // ),
     ],
 
     redirect: (context, state) async {
