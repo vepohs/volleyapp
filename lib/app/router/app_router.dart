@@ -2,12 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
-
-// Pages
 import 'package:volleyapp/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:volleyapp/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:volleyapp/features/auth/presentation/pages/home_page.dart';
 import 'package:volleyapp/features/auth/presentation/pages/splash_page.dart';
+import 'package:volleyapp/features/user/presentation/pages/add_user_page.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription _sub;
@@ -41,7 +39,7 @@ GoRouter createRouter(SessionStateProvider session) {
       GoRoute(path: '/splash',  builder: (_, __) => const SplashPage()),
       GoRoute(path: '/login',   builder: (_, __) => const SignInPage()),
       GoRoute(path: '/sign_up', builder: (_, __) => const SignUpPage()),
-      GoRoute(path: '/home',    builder: (_, __) => const HomePage()),
+      GoRoute(path: '/home',    builder: (_, __) => const AddUserPage()), // TODO pas bon c'est pour test
       // … tes autres routes protégées/public
     ],
 

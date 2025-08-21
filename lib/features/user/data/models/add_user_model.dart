@@ -3,6 +3,7 @@ class AddUserDto {
   final String firstname;
   final String lastname;
   final String email;
+  final DateTime birthdate;
   final String? avatarUrl;
 
   AddUserDto({
@@ -10,6 +11,7 @@ class AddUserDto {
     required this.firstname,
     required this.lastname,
     required this.email,
+    required this.birthdate,
     this.avatarUrl,
   });
 }

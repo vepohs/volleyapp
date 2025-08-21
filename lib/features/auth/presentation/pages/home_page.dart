@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     final greeting = user?.email != null
         ? 'Bonjour, ${user!.email} 👋'
-        : 'Bonjour 👋';
+        : 'Bonjour user';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Accueil')),
