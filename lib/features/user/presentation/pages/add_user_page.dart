@@ -37,8 +37,6 @@ class _AddUserView extends StatelessWidget {
       listenWhen: (p, c) => p.isSuccess != c.isSuccess,
       listener: (context, state) {
         if (state.isSuccess == true) {
-          // à adapter: route de destination après succès
-          context.go('/home');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Profil enregistré ✅')),
           );
@@ -72,6 +70,7 @@ class _AddUserView extends StatelessWidget {
     );
   }
 }
+
 
 
 

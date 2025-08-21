@@ -58,4 +58,14 @@ class FirebaseUserDatasource implements UserDatasource {
       throw Exception("Erreur Firestore getUserById: $e");
     }
   }
+  @override
+  Stream<UserModel?> watchUserById({required String id}) {
+    return _usersCol.doc(id).snapshots().map((doc) {
+      if (!doc.exists) return null;
+      final data = doc.data();
+      if (data == null) return null;
+      final withId = {...data, 'id': id};
+      return mapper.from(withId);
+    });
+  }
 }

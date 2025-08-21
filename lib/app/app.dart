@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:volleyapp/app/config/app_config.dart';
+import 'package:volleyapp/app/routing/app_router.dart';
 import 'package:volleyapp/app/theme/app_theme.dart';
-import 'package:volleyapp/app/router/app_router.dart';
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
 
 class App extends StatefulWidget {

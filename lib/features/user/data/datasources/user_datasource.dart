@@ -12,4 +12,6 @@ abstract class UserDatasource {
   });
 
   Future<UserModel?> getUserById({required String id});
+
+  Stream<UserModel?> watchUserById({required String id});
 }

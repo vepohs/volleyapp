@@ -1,1 +1,6 @@
-enum SessionStatus { unknown, unauthenticated, authenticated }
+enum SessionStatus {
+  unknown,
+  unauthenticated,
+  profileIncomplete,
+  authenticated,
+}

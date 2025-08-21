@@ -13,4 +13,6 @@ abstract class UserRepository {
   });
 
   Future<Either<Failure, Option<User>>> getUserById({required String id});
+
+  Stream<Option<User>> watchUserById({required String id});
 }

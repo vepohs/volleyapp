@@ -47,4 +47,19 @@ class UserRepositoryImpl implements UserRepository {
       return Left(Failure('Get user failed: $e'));
     }
   }
+
+  @override
+  Stream<Option<User>> watchUserById({required String id}) async* {
+    try {
+      await for (final model in _datasource.watchUserById(id: id)) {
+        if (model == null) {
+          yield const None();
+        } else {
+          yield Some(_mapper.from(model));
+        }
+      }
+    } catch (e) {
+      yield const None();
+    }
+  }
 }
