@@ -80,4 +80,10 @@ class FirestoreEventFields {
   static const String coachId = 'coachId';
   static const String notes = 'notes';
 }
+class FirestoreClubTeamFields {
+  static const String id = "id";
+  static const String clubId = "clubId";
+  static const String teamId = "teamId";
+  static const String linkedAt = "linkedAt";
+}
 

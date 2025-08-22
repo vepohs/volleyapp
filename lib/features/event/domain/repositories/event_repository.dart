@@ -11,10 +11,13 @@ abstract class EventRepository {
     required String location,
     required EventDetails details,
   });
+
   Future<Either<Failure, Option<Event>>> getEventById({required String id});
 
   Future<Either<Failure, Unit>> updateMatchResult({
     required String eventId,
     required Result result,
   });
+
+  Future<Either<Failure, List<Event>>> getAllEvent();
 }

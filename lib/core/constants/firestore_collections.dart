@@ -8,4 +8,5 @@ class FirestoreCollections {
   static const String teamMemberships = 'teamMemberships';
   static const String clubJoinRequests = 'clubJoinRequests';
   static const String events ='events';
+  static const String clubTeams = "clubTeams";
 }

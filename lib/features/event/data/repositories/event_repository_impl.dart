@@ -67,4 +67,16 @@ class EventRepositoryImpl implements EventRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, List<Event>>> getAllEvent() async {
+    try {
+      final models = await _datasource.getAllEvent();
+      final entities = models.map((m) => _mapper.from(m)).toList();
+      return Right(entities);
+    } catch (e) {
+      return Left(Failure('Get all events failed: $e'));
+    }
+  }
+
+
 }

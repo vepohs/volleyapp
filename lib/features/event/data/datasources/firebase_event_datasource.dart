@@ -84,4 +84,24 @@ class FirebaseEventDatasource implements EventDatasource {
       throw UpdateMatchResultException('Erreur inattendue: $e');
     }
   }
+
+  @override
+  Future<List<EventModel>> getAllEvent() async {
+    try {
+      final snap = await _col.get();
+
+      return snap.docs.map((doc) {
+        final data = doc.data();
+        return _mapper.from({
+          ...data,
+          FirestoreEventFields.id: doc.id,
+        });
+      }).toList();
+    } on FirebaseException catch (e) {
+      throw GetAllEventsException ('Firestore error: ${e.message}');
+    } catch (e) {
+      throw GetAllEventsException ('Erreur inattendue: $e');
+    }
+  }
+
 }
