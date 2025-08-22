@@ -30,4 +30,20 @@ class ClubMembershipRepositoryImpl implements ClubMembershipRepository {
       return Left(Failure("Erreur lors de l’ajout du membership: $e"));
     }
   }
+
+  @override
+  Future<Either<Failure, Option<ClubMembership>>> getClubByUserId({
+    required String userId,
+  }) async {
+    try {
+      final model = await datasource.getClubByUserId(userId: userId);
+
+      if (model == null) {
+        return const Right(None());
+      }
+      return Right(Some(mapper.from(model)));
+    } catch (e) {
+      return Left(Failure("Erreur lors de la récupération du membership: $e"));
+    }
+  }
 }

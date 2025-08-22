@@ -9,4 +9,8 @@ abstract class ClubMembershipRepository {
     required String userId,
     required Role role,
   });
+
+  Future<Either<Failure, Option<ClubMembership>>> getClubByUserId({
+    required String userId,
+  });
 }

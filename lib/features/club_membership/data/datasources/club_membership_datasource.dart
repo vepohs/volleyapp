@@ -6,4 +6,6 @@ abstract class ClubMembershipDataSource {
     required String userId,
     required String roleId,
   });
+
+  Future<ClubMembershipModel?> getClubByUserId({required String userId});
 }

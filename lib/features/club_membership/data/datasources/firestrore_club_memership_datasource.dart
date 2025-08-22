@@ -42,4 +42,25 @@ class FirebaseClubMembershipDatasource implements ClubMembershipDataSource {
       throw AddClubMembershipException("Erreur inattendue: $e");
     }
   }
+
+  @override
+  Future<ClubMembershipModel?> getClubByUserId({required String userId}) async {
+    try {
+      final query = await _membershipsCol
+          .where('userId', isEqualTo: userId)
+          .limit(1)
+          .get();
+
+      if (query.docs.isEmpty) return null;
+
+      final doc = query.docs.first;
+      final data = doc.data();
+
+      return _jsonMapper.from({...data, 'id': doc.id});
+    } on FirebaseException catch (e) {
+      throw GetClubMembershipException("Firestore error: ${e.message}");
+    } catch (e) {
+      throw GetClubMembershipException("Erreur inattendue: $e");
+    }
+  }
 }
