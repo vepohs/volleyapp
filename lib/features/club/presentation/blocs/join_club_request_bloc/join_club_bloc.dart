@@ -27,9 +27,6 @@ class JoinClubBloc extends Bloc<JoinClubEvent, JoinClubState> {
   }
 
   void _onClubSelected(ClubSelected event, Emitter<JoinClubState>emit){
-    print("ceci est mon club");
-    print(event.club.id);
-    print(event.club.name);
    emit(state.copyWith(selected: event.club));
 }
 
@@ -51,10 +48,8 @@ class JoinClubBloc extends Bloc<JoinClubEvent, JoinClubState> {
       GetFilteredClubByNameParams(query: query),
     );
 
-    // 4) Anti-race : si la query a changé pendant l’attente, on ignore
     if (state.query != query) return;
 
-    // 5) Résolution de l’Either
     either.fold(
           (failure) {
         emit(state.copyWith(
@@ -92,10 +87,6 @@ class JoinClubBloc extends Bloc<JoinClubEvent, JoinClubState> {
     if (user == null || state.selected == null) return;
 
     emit(state.copyWith(isSubmitting: true, error: null, isSuccess: false));
-    print("JENVOIE JE TIRE2");
-    print(state.selected);
-    print(state.selected?.name);
-    print(state.selected?.id);
     final result = await _submitClubJoinRequestUseCase(
       SubmitClubJoinRequestParams(
         clubId: state.selected!.id,
