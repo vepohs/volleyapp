@@ -46,4 +46,21 @@ class ClubMembershipRepositoryImpl implements ClubMembershipRepository {
       return Left(Failure("Erreur lors de la récupération du membership: $e"));
     }
   }
+
+  @override
+  Stream<Option<ClubMembership>> watchClubByUserId({
+    required String userId,
+  }) async* {
+    try {
+      await for (final model in datasource.watchClubByUserId(userId: userId)) {
+        if (model == null) {
+          yield const None();
+        } else {
+          yield Some(mapper.from(model));
+        }
+      }
+    } catch (e) {
+      yield const None();
+    }
+  }
 }

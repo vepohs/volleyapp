@@ -63,4 +63,18 @@ class FirebaseClubMembershipDatasource implements ClubMembershipDataSource {
       throw GetClubMembershipException("Erreur inattendue: $e");
     }
   }
+
+  @override
+  Stream<ClubMembershipModel?> watchClubByUserId({required String userId}) {
+    return _membershipsCol
+        .where('userId', isEqualTo: userId)
+        .limit(1)
+        .snapshots()
+        .map((snap) {
+      if (snap.docs.isEmpty) return null;
+      final data = snap.docs.first.data();
+      return _jsonMapper.from({...data, 'id': snap.docs.first.id});
+    });
+  }
+
 }

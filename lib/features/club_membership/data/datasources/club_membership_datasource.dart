@@ -8,4 +8,6 @@ abstract class ClubMembershipDataSource {
   });
 
   Future<ClubMembershipModel?> getClubByUserId({required String userId});
+
+  Stream<ClubMembershipModel?> watchClubByUserId({required String userId});
 }

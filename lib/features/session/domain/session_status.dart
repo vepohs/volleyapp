@@ -2,5 +2,6 @@ enum SessionStatus {
   unknown,
   unauthenticated,
   profileIncomplete,
-  authenticated,
+  noClub,
+  inClub,
 }

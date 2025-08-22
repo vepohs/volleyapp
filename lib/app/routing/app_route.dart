@@ -5,6 +5,7 @@ enum AppRoute {
   completeProfile,
   home,
   error,
+  club,
 }
 
 extension AppRouteX on AppRoute {
@@ -16,6 +17,7 @@ extension AppRouteX on AppRoute {
       case AppRoute.completeProfile:  return '/complete_profile';
       case AppRoute.home:             return '/home';
       case AppRoute.error:            return '/error';
+      case AppRoute.club:             return '/club';
     }
   }
 }

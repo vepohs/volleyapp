@@ -13,4 +13,8 @@ abstract class ClubMembershipRepository {
   Future<Either<Failure, Option<ClubMembership>>> getClubByUserId({
     required String userId,
   });
+
+  Stream<Option<ClubMembership>> watchClubByUserId({
+    required String userId,
+  });
 }
