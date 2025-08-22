@@ -16,6 +16,11 @@ import 'package:volleyapp/features/club/data/repositories/club_repository_impl.d
 import 'package:volleyapp/features/club/domain/repositories/club_repository.dart';
 import 'package:volleyapp/features/club/domain/use_cases/add_club/add_club_use_case.dart';
 import 'package:volleyapp/features/club/domain/use_cases/get_filtered_club_by_name/get_filtered_club_by_name_use_case.dart';
+import 'package:volleyapp/features/club_join_request/data/datasources/club_join_request_datasource.dart';
+import 'package:volleyapp/features/club_join_request/data/datasources/firebase_club_request_datasource.dart';
+import 'package:volleyapp/features/club_join_request/data/repositories/club_join_request_repository_impl.dart';
+import 'package:volleyapp/features/club_join_request/domain/repositories/club_join_request_repository.dart';
+import 'package:volleyapp/features/club_join_request/domain/use_cases/submit_club_join_request/submit_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/firestrore_club_memership_datasource.dart';
 import 'package:volleyapp/features/club_membership/data/repositories/club_membership_repository_impl.dart';
 import 'package:volleyapp/features/club_membership/domain/repositories/club_membership_repository.dart';
@@ -54,6 +59,9 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<ClubMembershipDataSource>(
           () => FirebaseClubMembershipDatasource(firestore: locator<FirebaseFirestore>()));
 
+  locator.registerLazySingleton<ClubRequestDataSource>(
+      () =>FirebaseClubRequestDataSource(firestore: locator<FirebaseFirestore>()));
+
   // Repositories
   locator.registerLazySingleton<auth_domain.AuthRepository>(
         () => auth_data.AuthRepositoryImpl(locator<AuthDatasource>()),
@@ -67,6 +75,8 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<ClubMembershipRepository>(
           () => ClubMembershipRepositoryImpl(locator<ClubMembershipDataSource>()));
 
+  locator.registerLazySingleton<ClubJoinRequestRepository>(
+      () => ClubRequestRepositoryImpl(locator<ClubRequestDataSource>()));
   // Use cases
   locator.registerLazySingleton<SignUpWithEmailUseCase>(
         () => SignUpWithEmailUseCase(locator<auth_domain.AuthRepository>()),
@@ -87,7 +97,11 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<AddClubMembershipUseCase>(
           () => AddClubMembershipUseCase(locator<ClubMembershipRepository>()));
 
-  locator.registerLazySingleton<GetFilteredClubByNameUseCase>(() =>GetFilteredClubByNameUseCase(locator<ClubRepository>()));
+  locator.registerLazySingleton<GetFilteredClubByNameUseCase>(
+          () =>GetFilteredClubByNameUseCase(locator<ClubRepository>()));
+
+  locator.registerLazySingleton<SubmitClubJoinRequestUseCase>(
+      () => SubmitClubJoinRequestUseCase(locator<ClubJoinRequestRepository>()));
 
   // Session provider
   locator.registerLazySingleton<SessionStateProvider>(
