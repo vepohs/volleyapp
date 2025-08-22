@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:volleyapp/app/routing/app_route.dart';
 import 'package:volleyapp/app/routing/go_router_refresh_stream.dart';
 import 'package:volleyapp/features/auth/presentation/pages/home_page.dart';
+import 'package:volleyapp/features/club/presentation/pages/club_page.dart';
 import 'package:volleyapp/features/club/presentation/pages/create_or_join_club_page.dart';
 import 'package:volleyapp/features/club/presentation/pages/create_team_page.dart';
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
@@ -63,14 +64,19 @@ GoRouter createRouter(SessionStateProvider session) {
       ),
       // ✅ Page quand l’utilisateur a déjà un club
       GoRoute(
-        name: AppRoute.club.name,
-        path: AppRoute.club.path,
+        name: AppRoute.addJoinClub.name,
+        path: AppRoute.addJoinClub.path,
         builder: (_, __) => const CreateOrJoinClubPage(),
       ),
       GoRoute(
         name: AppRoute.team.name,
         path: AppRoute.team.path,
         builder: (_, __) => const CreateTeamPage(),
+      ),
+      GoRoute(
+        name: AppRoute.club.name,
+        path: AppRoute.club.path,
+        builder: (_, __) => const ClubPage(),
       ),
     ],
 
@@ -109,8 +115,8 @@ GoRouter createRouter(SessionStateProvider session) {
               isAt(state, AppRoute.signIn) ||
               isAt(state, AppRoute.signUp) ||
               isAt(state, AppRoute.completeProfile) ||
-              isAt(state, AppRoute.club)) { // si on se retrouve au club, on renvoie home
-            final target = pending ?? AppRoute.club.path;
+              isAt(state, AppRoute.addJoinClub)) { // si on se retrouve au club, on renvoie home
+            final target = pending ?? AppRoute.addJoinClub.path;
             pending = null;
             return target;
           }

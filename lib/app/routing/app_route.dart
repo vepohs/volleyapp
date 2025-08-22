@@ -5,21 +5,32 @@ enum AppRoute {
   completeProfile,
   home,
   error,
-  club,
+  addJoinClub,
   team,
+  club,
 }
 
 extension AppRouteX on AppRoute {
   String get path {
     switch (this) {
-      case AppRoute.splash:           return '/splash';
-      case AppRoute.signIn:           return '/sign_in';
-      case AppRoute.signUp:           return '/sign_up';
-      case AppRoute.completeProfile:  return '/complete_profile';
-      case AppRoute.home:             return '/home';
-      case AppRoute.error:            return '/error';
-      case AppRoute.club:             return '/club';
-      case AppRoute.team:             return '/team';
+      case AppRoute.splash:
+        return '/splash';
+      case AppRoute.signIn:
+        return '/sign_in';
+      case AppRoute.signUp:
+        return '/sign_up';
+      case AppRoute.completeProfile:
+        return '/complete_profile';
+      case AppRoute.home:
+        return '/home';
+      case AppRoute.error:
+        return '/error';
+      case AppRoute.addJoinClub:
+        return '/addJoinClub';
+      case AppRoute.team:
+        return '/team';
+      case AppRoute.club:
+        return '/club';
     }
   }
 }

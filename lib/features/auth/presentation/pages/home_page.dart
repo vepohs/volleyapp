@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.groups_2),
               tooltip: 'Équipes',
-              onPressed: () => context.go(AppRoute.team.path), // 🔁 adapte le chemin si besoin
+              onPressed: () => context.push(AppRoute.club.path),
             ),
           ],
         ),
