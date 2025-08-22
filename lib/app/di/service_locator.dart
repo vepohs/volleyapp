@@ -25,6 +25,18 @@ import 'package:volleyapp/features/club_membership/data/datasources/firestrore_c
 import 'package:volleyapp/features/club_membership/data/repositories/club_membership_repository_impl.dart';
 import 'package:volleyapp/features/club_membership/domain/repositories/club_membership_repository.dart';
 import 'package:volleyapp/features/club_membership/domain/use_cases/add_club_membership_use_case/add_club_membership_use_case.dart';
+import 'package:volleyapp/features/club_membership/domain/use_cases/get_club_by%20_user_id/get_club_user_id_use_case.dart';
+import 'package:volleyapp/features/club_team/data/datasources/club_team_datasource.dart';
+import 'package:volleyapp/features/club_team/data/datasources/firebase_club_team_datasource.dart';
+import 'package:volleyapp/features/club_team/data/repositories/club_team_repository_impl.dart';
+import 'package:volleyapp/features/club_team/domain/repositories/club_team_repository.dart';
+import 'package:volleyapp/features/club_team/domain/use_cases/add_club_team/add_club_team_use_case.dart';
+import 'package:volleyapp/features/event/data/datasources/event_datasource.dart';
+import 'package:volleyapp/features/event/data/datasources/firebase_event_datasource.dart';
+import 'package:volleyapp/features/event/data/repositories/event_repository_impl.dart';
+import 'package:volleyapp/features/event/domain/repositories/event_repository.dart';
+import 'package:volleyapp/features/event/domain/use_cases/add_event/add_event_use_case.dart';
+import 'package:volleyapp/features/event/domain/use_cases/get_all_event/get_all_event_use_case.dart';
 
 // User
 import 'package:volleyapp/features/user/data/datasources/firebase_user_datasource.dart';
@@ -65,10 +77,17 @@ Future<void> configureDependencies() async {
     ),
   );
 
-
   locator.registerLazySingleton<ClubRequestDataSource>(
     () =>
         FirebaseClubRequestDataSource(firestore: locator<FirebaseFirestore>()),
+  );
+
+  locator.registerLazySingleton<EventDatasource>(
+    () => FirebaseEventDatasource(firestore: locator<FirebaseFirestore>()),
+  );
+
+  locator.registerLazySingleton<ClubTeamDataSource>(
+        () => FirebaseClubTeamDatasource(firestore: locator<FirebaseFirestore>()),
   );
 
   // Repositories
@@ -89,6 +108,14 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<ClubJoinRequestRepository>(
     () => ClubRequestRepositoryImpl(locator<ClubRequestDataSource>()),
   );
+  locator.registerLazySingleton<EventRepository>(
+    () => EventRepositoryImpl(locator<EventDatasource>()),
+  );
+
+  locator.registerLazySingleton<ClubTeamRepository>(
+        () => ClubTeamRepositoryImpl(locator<ClubTeamDataSource>()),
+  );
+
   // Use cases
   locator.registerLazySingleton<SignUpWithEmailUseCase>(
     () => SignUpWithEmailUseCase(locator<AuthRepository>()),
@@ -118,7 +145,18 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<SubmitClubJoinRequestUseCase>(
     () => SubmitClubJoinRequestUseCase(locator<ClubJoinRequestRepository>()),
   );
-
+  locator.registerLazySingleton<GetAllEventUseCase>(
+    () => GetAllEventUseCase(locator<EventRepository>()),
+  );
+  locator.registerLazySingleton<AddEventUseCase>(
+        () => AddEventUseCase(locator<EventRepository>()),
+  );
+  locator.registerLazySingleton<GetClubUserIdUseCase>(
+        () => GetClubUserIdUseCase(locator<ClubMembershipRepository>()),
+  );
+  locator.registerLazySingleton<AddClubTeamUseCase>(
+        () => AddClubTeamUseCase(locator<ClubTeamRepository>()),
+  );
   // Session provider
   locator.registerLazySingleton<SessionStateProvider>(
     () => SessionStateProviderReactive(

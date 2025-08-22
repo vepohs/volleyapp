@@ -15,4 +15,6 @@ abstract class EventDatasource {
     required String eventId,
     required Map<String, dynamic> resultJson,
   });
+
+  Future<List<EventModel>> getAllEvent();
 }

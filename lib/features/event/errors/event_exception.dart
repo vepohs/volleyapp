@@ -1,27 +1,28 @@
-class AddEventException implements Exception {
+
+abstract class EventException implements Exception {
   final String message;
-  const AddEventException(this.message);
+  const EventException(this.message);
+
   @override
-  String toString() => message;
+  String toString() => "$runtimeType: $message";
 }
 
-class GetEventByIdException implements Exception {
-  final String message;
-  const GetEventByIdException(this.message);
-  @override
-  String toString() => message;
+class AddEventException extends EventException {
+  const AddEventException(super.message);
 }
 
-class UpdateMatchResultException implements Exception {
-  final String message;
-  const UpdateMatchResultException(this.message);
-  @override
-  String toString() => message;
+class GetEventByIdException extends EventException {
+  const GetEventByIdException(super.message);
 }
 
-class CancelEventException implements Exception {
-  final String message;
-  const CancelEventException(this.message);
-  @override
-  String toString() => message;
+class UpdateMatchResultException extends EventException {
+  const UpdateMatchResultException(super.message);
+}
+
+class CancelEventException extends EventException {
+  const CancelEventException(super.message);
+}
+
+class GetAllEventsException extends EventException {
+  const GetAllEventsException(super.message);
 }

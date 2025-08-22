@@ -1,10 +1,9 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:volleyapp/app/routing/app_route.dart';
 import 'package:volleyapp/app/routing/go_router_refresh_stream.dart';
-import 'package:volleyapp/features/auth/presentation/pages/home_page.dart';
 import 'package:volleyapp/features/club/presentation/pages/create_or_join_club_page.dart';
+import 'package:volleyapp/features/club/presentation/pages/create_team_page.dart';
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
 import 'package:volleyapp/features/session/domain/session_status.dart';
 import 'package:volleyapp/features/auth/presentation/pages/splash_page.dart';
@@ -59,7 +58,7 @@ GoRouter createRouter(SessionStateProvider session) {
       GoRoute(
         name: AppRoute.home.name,
         path: AppRoute.home.path,
-        builder: (_, __) => const HomePage(),
+        builder: (_, __) => const CreateTeamPage(),
       ),
       // ✅ Page quand l’utilisateur a déjà un club
       GoRoute(

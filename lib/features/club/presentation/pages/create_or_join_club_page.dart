@@ -57,7 +57,7 @@ class _CreateClubView extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Club créé ')),
           );
-          context.go(AppRoute.home.path); // TODO
+          context.go(AppRoute.home.path);
         } else if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.submitError!)),
