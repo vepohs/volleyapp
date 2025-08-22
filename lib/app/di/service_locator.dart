@@ -37,12 +37,12 @@ import 'package:volleyapp/features/club_team/data/datasources/firebase_club_team
 import 'package:volleyapp/features/club_team/data/repositories/club_team_repository_impl.dart';
 import 'package:volleyapp/features/club_team/domain/repositories/club_team_repository.dart';
 import 'package:volleyapp/features/club_team/domain/use_cases/add_club_team/add_club_team_use_case.dart';
-import 'package:volleyapp/features/event/data/datasources/event_datasource.dart';
-import 'package:volleyapp/features/event/data/datasources/firebase_event_datasource.dart';
-import 'package:volleyapp/features/event/data/repositories/event_repository_impl.dart';
-import 'package:volleyapp/features/event/domain/repositories/event_repository.dart';
-import 'package:volleyapp/features/event/domain/use_cases/add_event/add_event_use_case.dart';
-import 'package:volleyapp/features/event/domain/use_cases/get_all_event/get_all_event_use_case.dart';
+
+import 'package:volleyapp/features/team/data/datasources/firebase_team_datasource.dart';
+import 'package:volleyapp/features/team/data/datasources/team_datasource.dart';
+import 'package:volleyapp/features/team/data/repositories/team_repository_impl.dart';
+import 'package:volleyapp/features/team/domain/repositories/team_repository.dart';
+import 'package:volleyapp/features/team/domain/use_cases/add_team/add_team_use_case.dart';
 
 // User
 import 'package:volleyapp/features/user/data/datasources/firebase_user_datasource.dart';
@@ -93,11 +93,18 @@ Future<void> configureDependencies() async {
     () => FirebaseEventDatasource(firestore: locator<FirebaseFirestore>()),
   );
 
+  locator.registerLazySingleton<TeamDataSource>(
+        () => FirebaseTeamDataSource(firestore: locator<FirebaseFirestore>()),
+  );
+
   locator.registerLazySingleton<ClubTeamDataSource>(
         () => FirebaseClubTeamDatasource(firestore: locator<FirebaseFirestore>()),
   );
 
   // Repositories
+  locator.registerLazySingleton<TeamRepository>(
+        () => TeamRepositoryImpl(locator<TeamDataSource>()),
+  );
   locator.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(locator<AuthDatasource>()),
   );
@@ -139,6 +146,9 @@ Future<void> configureDependencies() async {
 
   locator.registerLazySingleton<AddClubUseCase>(
     () => AddClubUseCase(locator<ClubRepository>()),
+  );
+  locator.registerLazySingleton<AddTeamUseCase>(
+        () => AddTeamUseCase(locator<TeamRepository>()),
   );
 
   locator.registerLazySingleton<AddClubMembershipUseCase>(
