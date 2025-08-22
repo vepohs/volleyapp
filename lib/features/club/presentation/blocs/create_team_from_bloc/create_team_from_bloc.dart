@@ -11,17 +11,19 @@ import 'package:volleyapp/features/club_team/domain/use_cases/add_club_team/add_
 import 'package:volleyapp/features/club_team/domain/use_cases/add_club_team/add_club_team_params.dart';
 
 class CreateTeamFormBloc extends Bloc<CreateTeamFormEvent, CreateTeamFormState> {
+
   final GetClubUserIdUseCase getClubUserIdUseCase;
   final AddTeamUseCase addTeamUseCase;
-  final AddClubTeamUseCase addClubTeamUseCase;
+ final AddClubTeamUseCase addClubTeamUseCase;
   final FirebaseAuth auth;
 
   CreateTeamFormBloc({
     required this.getClubUserIdUseCase,
-    required this.addTeamUseCase,
-    required this.addClubTeamUseCase,
+   required this.addTeamUseCase,
+   required this.addClubTeamUseCase,
     required this.auth,
   }) : super(const CreateTeamFormState()) {
+
     on<TeamNameChanged>(_onNameChanged);
     on<TeamCategoryChanged>(_onCategoryChanged);
     on<TeamGenderChanged>(_onGenderChanged);

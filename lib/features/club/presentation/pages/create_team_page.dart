@@ -17,9 +17,9 @@ class CreateTeamPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => CreateTeamFormBloc(
         getClubUserIdUseCase: locator<GetClubUserIdUseCase>(),
-        addTeamUseCase: locator<AddTeamUseCase>(),
+       addTeamUseCase: locator<AddTeamUseCase>(),
         auth: locator<FirebaseAuth>(),
-        addClubTeamUseCase: locator<AddClubTeamUseCase>(),
+       addClubTeamUseCase: locator<AddClubTeamUseCase>(),
       ),
       child: const CreateTeamFormView(),
     );
