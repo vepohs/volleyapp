@@ -68,6 +68,7 @@ class CreateClubBloc extends Bloc<CreateClubEvent, CreateClubState> {
                   userId: user.uid,
                   role: Role.presidenggggg))
       );
+
     emit(state.copyWith(isSubmitting: false, isSuccess: true));
 
     } catch (e) {

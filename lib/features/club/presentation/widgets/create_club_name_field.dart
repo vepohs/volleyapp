@@ -6,7 +6,7 @@ import '../blocs/create_club_bloc/create_club_event.dart';
 import '../blocs/create_club_bloc/create_club_state.dart';
 
 class CreateClubNameField extends StatelessWidget {
-  const CreateClubNameField();
+  const CreateClubNameField({super.key});
 
   @override
   Widget build(BuildContext context) {
