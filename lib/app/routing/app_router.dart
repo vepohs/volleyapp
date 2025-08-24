@@ -56,13 +56,11 @@ GoRouter createRouter(SessionStateProvider session) {
         path: AppRoute.completeProfile.path,
         builder: (_, __) => const AddUserPage(),
       ),
-      // Page "home" pour créer/rejoindre un club (quand pas de club)
       GoRoute(
         name: AppRoute.home.name,
         path: AppRoute.home.path,
         builder: (_, __) => const HomePage(),
       ),
-      // ✅ Page quand l’utilisateur a déjà un club
       GoRoute(
         name: AppRoute.addJoinClub.name,
         path: AppRoute.addJoinClub.path,

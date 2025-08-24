@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:volleyapp/core/errors/failure.dart';
+import 'package:volleyapp/features/club/domain/entities/club.dart';
 import 'package:volleyapp/features/club/domain/use_cases/add_club/add_club_params.dart';
 import 'package:volleyapp/features/club/domain/use_cases/add_club/add_club_use_case.dart';
 import 'package:volleyapp/features/club_membership/domain/entities/role.dart';
 import 'package:volleyapp/features/club_membership/domain/use_cases/add_club_membership_use_case/add_club_membership_use_case.dart';
 import 'package:volleyapp/features/club_membership/domain/use_cases/add_club_membership_use_case/add_club_memership_params.dart';
-import '../../../domain/entities/club.dart';
 import 'create_club_event.dart';
 import 'create_club_state.dart';
 

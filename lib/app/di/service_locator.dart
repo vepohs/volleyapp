@@ -21,6 +21,7 @@ import 'package:volleyapp/features/club_join_request/data/datasources/firebase_c
 import 'package:volleyapp/features/club_join_request/data/repositories/club_join_request_repository_impl.dart';
 import 'package:volleyapp/features/club_join_request/domain/repositories/club_join_request_repository.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/submit_club_join_request/submit_club_join_request_use_case.dart';
+import 'package:volleyapp/features/club_membership/data/datasources/club_membership_datasource.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/firestrore_club_memership_datasource.dart';
 import 'package:volleyapp/features/club_membership/data/repositories/club_membership_repository_impl.dart';
 import 'package:volleyapp/features/club_membership/domain/repositories/club_membership_repository.dart';
@@ -55,7 +56,6 @@ import 'package:volleyapp/features/user/domain/use_cases/add_user/add_user_useca
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
 import 'package:volleyapp/features/session/data/session_state_provider_reactive.dart';
 
-import '../../features/club_membership/data/datasources/club_membership_datasource.dart';
 
 final locator = GetIt.instance;
 
@@ -78,9 +78,7 @@ Future<void> configureDependencies() async {
   );
 
   locator.registerLazySingleton<ClubMembershipDataSource>(
-    () => FirebaseClubMembershipDatasource(
-      firestore: locator<FirebaseFirestore>(),
-    ),
+    () => FirebaseClubMembershipDatasource(firestore: locator<FirebaseFirestore>())
   );
 
 
