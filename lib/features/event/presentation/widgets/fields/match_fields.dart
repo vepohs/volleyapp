@@ -33,7 +33,6 @@ class MatchFields extends StatelessWidget {
 
         const SizedBox(height: 8),
 
-        // Extérieur
         const _ClubTeamRow(
           title: 'Extérieur',
           isHome: false,
