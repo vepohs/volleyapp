@@ -24,6 +24,7 @@ import 'package:volleyapp/features/club_join_request/data/repositories/club_join
 import 'package:volleyapp/features/club_join_request/domain/repositories/club_join_request_repository.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/approve_club_join_request/approve_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_use_case.dart';
+import 'package:volleyapp/features/club_join_request/domain/use_cases/reject_club_join_request/reject_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/submit_club_join_request/submit_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/club_membership_datasource.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/firestrore_club_memership_datasource.dart';
@@ -223,6 +224,9 @@ Future<void> configureDependencies() async {
 
   locator.registerLazySingleton<ApproveClubJoinRequestUseCase>(
       () => ApproveClubJoinRequestUseCase(locator<ClubJoinRequestRepository>()));
+
+  locator.registerLazySingleton<RejectClubJoinRequestUseCase>(
+      () => RejectClubJoinRequestUseCase(locator<ClubJoinRequestRepository>()));
 
   // Session provider
   locator.registerLazySingleton<SessionStateProvider>(

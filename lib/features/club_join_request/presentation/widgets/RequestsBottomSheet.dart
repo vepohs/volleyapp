@@ -68,6 +68,10 @@ class RequestsBottomSheet extends StatelessWidget {
                             final r = requests[i];
                             final userName = '${r.user.firstname} ${r.user.lastname}';
 
+                            // ✅ Récupère la valeur sélectionnée depuis le state (RequestsModalLoaded)
+                            final loaded = state; // ici, state est déjà RequestsModalLoaded
+                            final String? selectedTeamId = loaded.selectedTeamByRequest[r.id];
+
                             return Card(
                               elevation: 0.5,
                               child: Padding(
@@ -78,7 +82,7 @@ class RequestsBottomSheet extends StatelessWidget {
                                     Text(userName, style: Theme.of(context).textTheme.titleMedium),
                                     const SizedBox(height: 8),
 
-                                    // Dropdown des équipes
+                                    // Dropdown des équipes (valeur contrôlée par le BLoC)
                                     DropdownButtonFormField<String>(
                                       decoration: const InputDecoration(
                                         labelText: 'Affecter à une équipe',
@@ -90,37 +94,49 @@ class RequestsBottomSheet extends StatelessWidget {
                                         child: Text(t.name),
                                       ))
                                           .toList(),
-                                      value: null, // pas de valeur par défaut pour l’instant
-                                      onChanged: (_) {}, // à brancher plus tard
+                                      onChanged: (value) {
+                                        // ✅ Remonte la sélection dans le BLoC
+                                        context.read<RequestsModalBloc>().add(
+                                          TeamSelectionChanged(requestId: r.id, teamId: value),
+                                        );
+                                      },
                                     ),
-
                                     const SizedBox(height: 12),
 
-                                    // Dropdown des rôles
                                     DropdownButtonFormField<String>(
                                       decoration: const InputDecoration(
                                         labelText: 'Rôle',
                                         border: OutlineInputBorder(),
                                       ),
                                       items: roleItems,
-                                      value: null, // pas de valeur par défaut pour l’instant
-                                      onChanged: (_) {}, // à brancher plus tard
+                                      onChanged: (roleId) {
+                                        context.read<RequestsModalBloc>().add(
+                                          RoleSelectionChanged(requestId: r.id, roleId: roleId),
+                                        );
+                                      },
                                     ),
 
                                     const SizedBox(height: 12),
 
                                     Row(
                                       children: [
-                                        Expanded(
-                                          child: OutlinedButton(
-                                            onPressed: () {}, // plus tard: reject
-                                            child: const Text('Refuser'),
-                                          ),
+                                        OutlinedButton(
+                                          onPressed: () {
+                                            context.read<RequestsModalBloc>().add(
+                                              RejectRequestPressed(requestId: r.id),
+                                            );
+                                          },
+                                          child: const Text('Refuser'),
                                         ),
+
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: ElevatedButton(
-                                            onPressed: () {}, // plus tard: accept
+                                            onPressed: () {
+                                              context.read<RequestsModalBloc>().add(
+                                                ApproveRequestPressed(requestId: r.id),
+                                              );
+                                            }, // plus tard: accept
                                             child: const Text('Accepter'),
                                           ),
                                         ),

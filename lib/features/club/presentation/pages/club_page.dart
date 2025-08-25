@@ -8,9 +8,11 @@ import 'package:volleyapp/features/club/presentation/blocs/team_bloc/team_event.
 import 'package:volleyapp/features/club/presentation/widgets/team_list.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/approve_club_join_request/approve_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_use_case.dart';
+import 'package:volleyapp/features/club_join_request/domain/use_cases/reject_club_join_request/reject_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_bloc.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_event.dart';
 import 'package:volleyapp/features/club_join_request/presentation/widgets/RequestsBottomSheet.dart';
+import 'package:volleyapp/features/club_membership/domain/use_cases/add_club_membership_use_case/add_club_membership_use_case.dart';
 import 'package:volleyapp/features/club_membership/domain/use_cases/get_club_for_current_user/get_club_for_current_user_use_case.dart';
 import 'package:volleyapp/features/club_team/domain/use_cases/get_all_team_by_club_id/get_all_team_by_club_id_use_case.dart';
 class ClubPage extends StatelessWidget {
@@ -66,6 +68,8 @@ class ClubPage extends StatelessWidget {
                                   getAllTeamByClubId: locator<GetAllTeamByClubId>(),
                                   getAllRequestsByClubId: locator<GetAllClubJoinRequestByClubId>(),
                                   approveClubJoinRequestUseCase: locator<ApproveClubJoinRequestUseCase>(),
+                                  addClubMembershipUseCase: locator<AddClubMembershipUseCase>(),
+                                  rejectClubJoinRequestUseCase: locator<RejectClubJoinRequestUseCase>(),
                                 )..add(LoadRequestsModal()),
                                 child: const RequestsBottomSheet(),
                               );
