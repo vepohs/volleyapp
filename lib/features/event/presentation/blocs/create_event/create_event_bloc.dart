@@ -18,90 +18,66 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
   CreateEventBloc({
     required AddEventUseCase addEventUseCase,
     required GetClubForCurrentUserUseCase getClubForCurrentUserUseCase,
-  }) : _addEvent = addEventUseCase,
-       _getClubForCurrentUserUseCase = getClubForCurrentUserUseCase,
-       super(CreateEventState.initial()) {
-    on<EventKindChanged>(
-      (e, emit) => emit(state.copyWith(kind: e.kind, clearFieldErrors: true)),
-    );
-    on<StartAtChanged>(
-      (e, emit) => emit(state.copyWith(startAt: e.value, startAtError: null)),
-    );
-    on<EndAtChanged>(
-      (e, emit) => emit(state.copyWith(endAt: e.value, endAtError: null)),
-    );
-    on<LocationChanged>(
-      (e, emit) => emit(state.copyWith(location: e.value, locationError: null)),
-    );
-
-    on<HomeClubTeamChanged>(
-      (e, emit) => emit(
-        state.copyWith(
-          homeClubId: e.clubId,
-          homeTeamId: e.teamId,
-          homeClubTeamError: null,
-        ),
-      ),
-    );
-    on<AwayClubTeamChanged>(
-      (e, emit) => emit(
-        state.copyWith(
-          awayClubId: e.clubId,
-          awayTeamId: e.teamId,
-          awayClubTeamError: null,
-        ),
-      ),
-    );
-    on<TrainingClubTeamChanged>(
-      (e, emit) => emit(
-        state.copyWith(
-          trainingClubId: e.clubId,
-          trainingTeamId: e.teamId,
-          trainingClubTeamError: null,
-        ),
-      ),
-    );
-
-    on<CompetitionChanged>(
-      (e, emit) => emit(state.copyWith(competition: e.value)),
-    );
+  })  : _addEvent = addEventUseCase,
+        _getClubForCurrentUserUseCase = getClubForCurrentUserUseCase,
+        super(CreateEventState.initial()) {
+    // généraux
+    on<EventKindChanged>((e, emit) => emit(state.copyWith(kind: e.kind, clearFieldErrors: true)));
+    on<StartAtChanged>((e, emit) => emit(state.copyWith(startAt: e.value, startAtError: null)));
+    on<EndAtChanged>((e, emit) => emit(state.copyWith(endAt: e.value, endAtError: null)));
+    on<LocationChanged>((e, emit) => emit(state.copyWith(location: e.value, locationError: null)));
+    on<CompetitionChanged>((e, emit) => emit(state.copyWith(competition: e.value)));
     on<CoachChanged>((e, emit) => emit(state.copyWith(coachId: e.value)));
     on<NotesChanged>((e, emit) => emit(state.copyWith(notes: e.value)));
+
+    // match séparés
+    on<HomeClubChanged>((e, emit) => emit(state.copyWith(
+      homeClubId: e.clubId,
+      homeTeamId: null, // reset team
+      homeClubTeamError: null,
+    )));
+    on<HomeTeamChanged>((e, emit) => emit(state.copyWith(
+      homeTeamId: e.teamId,
+      homeClubTeamError: null,
+    )));
+
+    on<AwayClubChanged>((e, emit) => emit(state.copyWith(
+      awayClubId: e.clubId,
+      awayTeamId: null, // reset team
+      awayClubTeamError: null,
+    )));
+    on<AwayTeamChanged>((e, emit) => emit(state.copyWith(
+      awayTeamId: e.teamId,
+      awayClubTeamError: null,
+    )));
+
+    // training séparés
+    on<TrainingClubChanged>((e, emit) => emit(state.copyWith(
+      trainingClubId: e.clubId,
+      trainingTeamId: null, // reset team
+      trainingClubTeamError: null,
+    )));
+    on<TrainingTeamChanged>((e, emit) => emit(state.copyWith(
+      trainingTeamId: e.teamId,
+      trainingClubTeamError: null,
+    )));
 
     on<CreateEventSubmitted>(_onSubmit);
   }
 
-  Future<void> _onSubmit(
-    CreateEventSubmitted event,
-    Emitter<CreateEventState> emit,
-  ) async {
-    // Nettoyer erreurs affichées précédemment
+  Future<void> _onSubmit(CreateEventSubmitted event, Emitter<CreateEventState> emit) async {
     emit(state.copyWith(clearFieldErrors: true, error: null, success: null));
 
-    // ---- Validations par champ ----
-    String? startErr;
-    String? endErr;
-    String? locationErr;
-    String? homeErr;
-    String? awayErr;
-    String? trainingErr;
+    String? startErr, endErr, locationErr, homeErr, awayErr, trainingErr;
 
-    // Dates
     if (state.startAt == null) startErr = 'Début requis';
     if (state.endAt == null) endErr = 'Fin requise';
-    if (state.startAt != null && state.endAt != null) {
-      if (!state.endAt!.isAfter(state.startAt!)) {
-        startErr ??= 'Début invalide';
-        endErr = 'La fin doit être après le début';
-      }
+    if (state.startAt != null && state.endAt != null && !state.endAt!.isAfter(state.startAt!)) {
+      startErr ??= 'Début invalide';
+      endErr = 'La fin doit être après le début';
     }
+    if (state.location.trim().isEmpty) locationErr = 'Lieu requis';
 
-    // Lieu
-    if (state.location.trim().isEmpty) {
-      locationErr = 'Lieu requis';
-    }
-
-    // Champs selon type
     if (state.kind == CreateEventKind.match) {
       if (state.homeClubId == null || state.homeTeamId == null) {
         homeErr = 'Sélectionne club & équipe (domicile)';
@@ -115,33 +91,21 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
       }
     }
 
-    final hasErrors = [
-      startErr,
-      endErr,
-      locationErr,
-      homeErr,
-      awayErr,
-      trainingErr,
-    ].any((e) => e != null);
-
+    final hasErrors = [startErr, endErr, locationErr, homeErr, awayErr, trainingErr].any((e) => e != null);
     if (hasErrors) {
-      // On émet l’état avec les erreurs par champ, PAS de submit
-      emit(
-        state.copyWith(
-          startAtError: startErr,
-          endAtError: endErr,
-          locationError: locationErr,
-          homeClubTeamError: homeErr,
-          awayClubTeamError: awayErr,
-          trainingClubTeamError: trainingErr,
-          submitting: false,
-          success: false,
-        ),
-      );
+      emit(state.copyWith(
+        startAtError: startErr,
+        endAtError: endErr,
+        locationError: locationErr,
+        homeClubTeamError: homeErr,
+        awayClubTeamError: awayErr,
+        trainingClubTeamError: trainingErr,
+        submitting: false,
+        success: false,
+      ));
       return;
     }
 
-    // ---- Construire details ----
     late final EventDetails details;
     if (state.kind == CreateEventKind.match) {
       details = MatchDetails(
@@ -149,9 +113,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
         homeTeamId: state.homeTeamId!,
         awayClubId: state.awayClubId!,
         awayTeamId: state.awayTeamId!,
-        competition: state.competition.trim().isEmpty
-            ? null
-            : state.competition.trim(),
+        competition: state.competition.trim().isEmpty ? null : state.competition.trim(),
       );
     } else {
       details = TrainingDetails(
@@ -162,36 +124,26 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
       );
     }
 
-    // ---- Envoi ----
     emit(state.copyWith(submitting: true));
 
     final clubResult = await _getClubForCurrentUserUseCase();
 
     final Either<Failure, Event> res = await clubResult.fold(
-      (failure) async => Left<Failure, Event>(failure),
-      (club) async {
-        return await _addEvent(
-          AddEventParams(
-            clubId: club.id,
-            startAt: state.startAt!,
-            endAt: state.endAt!,
-            location: state.location.trim(),
-            details: details,
-          ),
-        );
+          (failure) async => Left<Failure, Event>(failure),
+          (club) async {
+        return await _addEvent(AddEventParams(
+          clubId: club.id,
+          startAt: state.startAt!,
+          endAt: state.endAt!,
+          location: state.location.trim(),
+          details: details,
+        ));
       },
     );
 
     res.fold(
-      (failure) => emit(
-        state.copyWith(
-          submitting: false,
-          success: false,
-          error: failure.message, // snackbar globale
-        ),
-      ),
-      (_) =>
-          emit(state.copyWith(submitting: false, success: true, error: null)),
+          (failure) => emit(state.copyWith(submitting: false, success: false, error: failure.message)),
+          (_) => emit(state.copyWith(submitting: false, success: true, error: null)),
     );
   }
 }

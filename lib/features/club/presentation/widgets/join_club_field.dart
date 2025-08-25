@@ -6,26 +6,20 @@ import 'package:volleyapp/features/club/presentation/blocs/join_club_request_blo
 import 'package:volleyapp/features/club/presentation/blocs/join_club_request_bloc/join_club_event.dart';
 import 'package:volleyapp/features/club/presentation/blocs/join_club_request_bloc/join_club_state.dart';
 
-class JoinClubField extends StatefulWidget {
+class JoinClubField extends StatelessWidget {
   const JoinClubField({super.key});
-  @override
-  State<JoinClubField> createState() => _JoinClubFieldState();
-}
-
-class _JoinClubFieldState extends State<JoinClubField> {
-  TextEditingController? _controllerFromTypeAhead;
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<JoinClubBloc>();
-  // TODO je pense si on veut opti on passe en bloc selector
+    final controller = TextEditingController();
+
     return BlocBuilder<JoinClubBloc, JoinClubState>(
       builder: (context, state) {
         return TypeAheadField<Club>(
-          builder: (_, controller, focusNode) {
-            _controllerFromTypeAhead = controller;
+          builder: (_, ctrl, focusNode) {
             return TextField(
-              controller: controller,
+              controller: ctrl,
               focusNode: focusNode,
               decoration: InputDecoration(
                 labelText: 'Rechercher un club',
@@ -34,7 +28,6 @@ class _JoinClubFieldState extends State<JoinClubField> {
             );
           },
           suggestionsCallback: (pattern) async {
-
             final query = pattern.trim();
             bloc.add(SearchClubsChanged(query));
             return bloc.stream.firstWhere(
@@ -45,14 +38,12 @@ class _JoinClubFieldState extends State<JoinClubField> {
                       blocState.status == ClubSearchStatus.failure),
             ).then((state) => state.results);
           },
-
           itemBuilder: (_, club) => ListTile(title: Text(club.name)),
           onSelected: (club) {
             bloc.add(ClubSelected(club));
-            _controllerFromTypeAhead?.text = club.name;
+            controller.text = club.name;
             FocusScope.of(context).unfocus();
           },
-
           emptyBuilder: (context) {
             if (state.status == ClubSearchStatus.failure) {
               return Padding(
@@ -77,7 +68,6 @@ class _JoinClubFieldState extends State<JoinClubField> {
         child: SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
       );
     }
-
     if (state.selected != null) return const Icon(Icons.check_circle);
     return const Icon(Icons.search);
   }

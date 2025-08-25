@@ -13,46 +13,28 @@ class MatchFields extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Domicile
-        const _ClubTeamRow(
-          title: 'Domicile',
-          isHome: true,
-        ),
+        _ClubTeamRow(title: 'Domicile', isHome: true),
         BlocSelector<CreateEventBloc, CreateEventState, String?>(
           selector: (s) => s.homeClubTeamError,
           builder: (context, error) => error == null
               ? const SizedBox.shrink()
               : Padding(
             padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-            child: Text(
-              error,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+            child: Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ),
-
         const SizedBox(height: 8),
-
-        const _ClubTeamRow(
-          title: 'Extérieur',
-          isHome: false,
-        ),
+        _ClubTeamRow(title: 'Extérieur', isHome: false),
         BlocSelector<CreateEventBloc, CreateEventState, String?>(
-          selector: (s) => s.homeClubTeamError,
+          selector: (s) => s.awayClubTeamError,
           builder: (context, error) => error == null
               ? const SizedBox.shrink()
               : Padding(
             padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-            child: Text(
-              error,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+            child: Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ),
-
         const SizedBox(height: 8),
-
-        // Compétition
         BlocSelector<CreateEventBloc, CreateEventState, String>(
           selector: (s) => s.competition,
           builder: (context, competition) {
@@ -62,8 +44,7 @@ class MatchFields extends StatelessWidget {
                 labelText: 'Compétition (optionnel)',
                 border: OutlineInputBorder(),
               ),
-              onChanged: (v) =>
-                  context.read<CreateEventBloc>().add(CompetitionChanged(v)),
+              onChanged: (v) => context.read<CreateEventBloc>().add(CompetitionChanged(v)),
             );
           },
         ),
@@ -72,53 +53,63 @@ class MatchFields extends StatelessWidget {
   }
 }
 
-class _ClubTeamRow extends StatefulWidget {
+class _ClubTeamRow extends StatelessWidget {
   final String title;
-  final bool isHome; // true => home, false => away
+  final bool isHome;
   const _ClubTeamRow({required this.title, required this.isHome});
 
   @override
-  State<_ClubTeamRow> createState() => _ClubTeamRowState();
-}
-
-class _ClubTeamRowState extends State<_ClubTeamRow> {
-  String? _clubId;
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Text(widget.title, style: Theme.of(context).textTheme.labelLarge),
-        ),
-        Row(children: [
-          Expanded(
-            child: ClubPicker(
-              onChanged: (cid) {
-                setState(() => _clubId = cid);
-              },
+    return BlocBuilder<CreateEventBloc, CreateEventState>(
+      buildWhen: (p, c) => isHome
+          ? (p.homeClubId != c.homeClubId || p.homeTeamId != c.homeTeamId)
+          : (p.awayClubId != c.awayClubId || p.awayTeamId != c.awayTeamId),
+      builder: (context, state) {
+        final clubId = isHome ? state.homeClubId : state.awayClubId;
+        final teamId = isHome ? state.homeTeamId : state.awayTeamId;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Text(title, style: Theme.of(context).textTheme.labelLarge),
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: TeamPicker(
-              clubId: _clubId,
-              onChanged: (tid) {
-                final clubId = _clubId;
-                if (clubId == null) return;
-                final bloc = context.read<CreateEventBloc>();
-                if (widget.isHome) {
-                  bloc.add(HomeClubTeamChanged(clubId, tid));
-                } else {
-                  bloc.add(AwayClubTeamChanged(clubId, tid));
-                }
-              },
+            Row(
+              children: [
+                Expanded(
+                  child: ClubPicker(
+                    initialValue: clubId,
+                    onChanged: (cid) {
+                      final bloc = context.read<CreateEventBloc>();
+                      if (isHome) {
+                        bloc.add(HomeClubChanged(cid)); // reset team fait dans le bloc
+                      } else {
+                        bloc.add(AwayClubChanged(cid));
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TeamPicker(
+                    clubId: clubId,          // charge les équipes du club choisi
+                    initialValue: teamId,    // re-sélection si dispo
+                    onChanged: (tid) {
+                      final bloc = context.read<CreateEventBloc>();
+                      if (isHome) {
+                        bloc.add(HomeTeamChanged(tid));
+                      } else {
+                        bloc.add(AwayTeamChanged(tid));
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ]),
-      ],
+          ],
+        );
+      },
     );
   }
 }

@@ -24,22 +24,36 @@ class LocationChanged extends CreateEventEvent {
   const LocationChanged(this.value);
 }
 
-class HomeClubTeamChanged extends CreateEventEvent {
+// ---- Match (séparés) ----
+class HomeClubChanged extends CreateEventEvent {
   final String clubId;
-  final String teamId;
-  const HomeClubTeamChanged(this.clubId, this.teamId);
+  const HomeClubChanged(this.clubId);
 }
 
-class AwayClubTeamChanged extends CreateEventEvent {
-  final String clubId;
+class HomeTeamChanged extends CreateEventEvent {
   final String teamId;
-  const AwayClubTeamChanged(this.clubId, this.teamId);
+  const HomeTeamChanged(this.teamId);
 }
 
-class TrainingClubTeamChanged extends CreateEventEvent {
+class AwayClubChanged extends CreateEventEvent {
   final String clubId;
+  const AwayClubChanged(this.clubId);
+}
+
+class AwayTeamChanged extends CreateEventEvent {
   final String teamId;
-  const TrainingClubTeamChanged(this.clubId, this.teamId);
+  const AwayTeamChanged(this.teamId);
+}
+
+// ---- Training (séparés) ----
+class TrainingClubChanged extends CreateEventEvent {
+  final String clubId;
+  const TrainingClubChanged(this.clubId);
+}
+
+class TrainingTeamChanged extends CreateEventEvent {
+  final String teamId;
+  const TrainingTeamChanged(this.teamId);
 }
 
 class CompetitionChanged extends CreateEventEvent {
@@ -57,4 +71,6 @@ class NotesChanged extends CreateEventEvent {
   const NotesChanged(this.value);
 }
 
-class CreateEventSubmitted extends CreateEventEvent {}
+class CreateEventSubmitted extends CreateEventEvent {
+  const CreateEventSubmitted();
+}

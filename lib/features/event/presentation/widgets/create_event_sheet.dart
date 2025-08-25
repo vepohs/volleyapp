@@ -36,7 +36,7 @@ class CreateEventSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>(); // tu peux le garder si tu le souhaites
+    final formKey = GlobalKey<FormState>();
 
     return BlocConsumer<CreateEventBloc, CreateEventState>(
       listenWhen: (p, c) => p.success != c.success || p.error != c.error,
@@ -149,13 +149,15 @@ class CreateEventSheet extends StatelessWidget {
                           onPressed: state.submitting
                               ? null
                               : () {
-                            // tu peux garder ce validate si tu as d’autres validators custom
                             formKey.currentState?.validate();
                             context.read<CreateEventBloc>().add(CreateEventSubmitted());
                           },
                           icon: state.submitting
                               ? const SizedBox(
-                              height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                            height: 18,
+                            width: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                               : const Icon(Icons.check),
                           label: Text(state.submitting ? 'Création...' : 'Créer'),
                         ),
