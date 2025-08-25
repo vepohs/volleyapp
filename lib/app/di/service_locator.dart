@@ -22,6 +22,8 @@ import 'package:volleyapp/features/club_join_request/data/datasources/club_join_
 import 'package:volleyapp/features/club_join_request/data/datasources/firebase_club_request_datasource.dart';
 import 'package:volleyapp/features/club_join_request/data/repositories/club_join_request_repository_impl.dart';
 import 'package:volleyapp/features/club_join_request/domain/repositories/club_join_request_repository.dart';
+import 'package:volleyapp/features/club_join_request/domain/use_cases/approve_club_join_request/approve_club_join_request_use_case.dart';
+import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/submit_club_join_request/submit_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/club_membership_datasource.dart';
 import 'package:volleyapp/features/club_membership/data/datasources/firestrore_club_memership_datasource.dart';
@@ -133,9 +135,6 @@ Future<void> configureDependencies() async {
     () => ClubMembershipRepositoryImpl(locator<ClubMembershipDataSource>()),
   );
 
-  locator.registerLazySingleton<ClubJoinRequestRepository>(
-    () => ClubRequestRepositoryImpl(locator<ClubRequestDataSource>(),locator<UserRepository>()),
-  );
   locator.registerLazySingleton<EventRepository>(
     () => EventRepositoryImpl(locator<EventDatasource>()),
   );
@@ -145,6 +144,12 @@ Future<void> configureDependencies() async {
   );
   locator.registerLazySingleton<TeamMembershipRepository>(
     () => TeamMembershipRepositoryImpl(locator<TeamMembershipDataSource>()),
+  );
+
+  locator.registerLazySingleton<ClubJoinRequestRepository>(
+        () => ClubRequestRepositoryImpl(
+        locator<ClubRequestDataSource>(),
+        locator<UserRepository>()),
   );
 
   // Use cases
@@ -212,6 +217,12 @@ Future<void> configureDependencies() async {
   locator.registerLazySingleton<GetTeamByIdUseCase>(
         () => GetTeamByIdUseCase(locator<TeamRepository>()),
   );
+  
+  locator.registerLazySingleton<GetAllClubJoinRequestByClubId>(
+      () => GetAllClubJoinRequestByClubId(locator<ClubJoinRequestRepository>()));
+
+  locator.registerLazySingleton<ApproveClubJoinRequestUseCase>(
+      () => ApproveClubJoinRequestUseCase(locator<ClubJoinRequestRepository>()));
 
   // Session provider
   locator.registerLazySingleton<SessionStateProvider>(

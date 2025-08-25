@@ -49,8 +49,8 @@ class CreateTeamFormView extends StatelessWidget {
                 ),
               );
               // Attends la fin de l'affichage
-              await Future.delayed(const Duration(seconds: 2));
-              context.go(AppRoute.club.path);
+              await Future.delayed(const Duration(seconds: 1));
+              if (context.mounted) context.pop(true);
             }
           },
           child: BlocBuilder<CreateTeamFormBloc, CreateTeamFormState>(

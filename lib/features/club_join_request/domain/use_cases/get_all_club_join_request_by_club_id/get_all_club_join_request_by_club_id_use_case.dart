@@ -5,12 +5,12 @@ import 'package:volleyapp/features/club_join_request/domain/entities/club_join_r
 import 'package:volleyapp/features/club_join_request/domain/repositories/club_join_request_repository.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_params.dart';
 
-class GetAllClubJoinRequestUseCase
+class GetAllClubJoinRequestByClubId
     extends
         UseCase<List<ClubJoinRequest>, GetAllClubJoinRequestByClubIdParams> {
   final ClubJoinRequestRepository repository;
 
-  GetAllClubJoinRequestUseCase(this.repository);
+  GetAllClubJoinRequestByClubId(this.repository);
 
   @override
   Future<Either<Failure, List<ClubJoinRequest>>> call(

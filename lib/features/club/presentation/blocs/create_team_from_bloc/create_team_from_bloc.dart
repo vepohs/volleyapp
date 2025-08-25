@@ -15,13 +15,13 @@ class CreateTeamFormBloc extends Bloc<CreateTeamFormEvent, CreateTeamFormState> 
 
   final GetClubUserIdUseCase getClubUserIdUseCase;
   final AddTeamUseCase addTeamUseCase;
- final AddClubTeamUseCase addClubTeamUseCase;
+  final AddClubTeamUseCase addClubTeamUseCase;
   final FirebaseAuth auth;
 
   CreateTeamFormBloc({
     required this.getClubUserIdUseCase,
-   required this.addTeamUseCase,
-   required this.addClubTeamUseCase,
+    required this.addTeamUseCase,
+    required this.addClubTeamUseCase,
     required this.auth,
   }) : super(const CreateTeamFormState()) {
 

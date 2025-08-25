@@ -156,7 +156,6 @@ class FirebaseClubRequestDataSource implements ClubRequestDataSource {
       final qs = await _requestsCol
           .where(FirestoreClubJoinRequestFields.clubId, isEqualTo: clubId)
           .where(FirestoreClubJoinRequestFields.status, isEqualTo: 'pending')
-          .orderBy(FirestoreClubJoinRequestFields.createdAt, descending: true)
           .get();
 
       return qs.docs.map((doc) {
