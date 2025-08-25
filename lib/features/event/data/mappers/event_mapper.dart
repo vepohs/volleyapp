@@ -40,6 +40,7 @@ class EventMapper implements BaseMapper<EventModel, Event> {
 
     return Event(
       id: input.id,
+      clubId :input.clubId,
       startAt: input.startAt,
       endAt: input.endAt,
       location: input.location,
@@ -54,6 +55,7 @@ class EventMapper implements BaseMapper<EventModel, Event> {
 
     return EventModel(
       id: output.id,
+      clubId: output.clubId,
       startAt: output.startAt,
       endAt: output.endAt,
       location: output.location,

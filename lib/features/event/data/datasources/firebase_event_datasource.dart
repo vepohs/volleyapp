@@ -17,6 +17,7 @@ class FirebaseEventDatasource implements EventDatasource {
 
   @override
   Future<EventModel> addEvent({
+    required String clubId,
     required DateTime startAt,
     required DateTime endAt,
     required String location,
@@ -24,9 +25,10 @@ class FirebaseEventDatasource implements EventDatasource {
     required Map<String, dynamic> details,
   }) async {
     try {
-      final docRef = _col.doc(); // id auto
+      final docRef = _col.doc();
       final model = EventModel(
         id: docRef.id,
+        clubId: clubId,
         startAt: startAt,
         endAt: endAt,
         location: location,
@@ -76,7 +78,8 @@ class FirebaseEventDatasource implements EventDatasource {
       }
 
       await ref.update({
-        '${FirestoreEventFields.details}.${FirestoreEventFields.result}': resultJson,
+        '${FirestoreEventFields.details}.${FirestoreEventFields.result}':
+            resultJson,
       });
     } on FirebaseException catch (e) {
       throw UpdateMatchResultException('Firestore error: ${e.message}');
@@ -86,22 +89,24 @@ class FirebaseEventDatasource implements EventDatasource {
   }
 
   @override
-  Future<List<EventModel>> getAllEvent() async {
+  Future<List<EventModel>> getAllEventByClubId({required String clubId}) async {
     try {
-      final snap = await _col.get();
+      final snap = await _col
+          .where(FirestoreEventFields.clubId, isEqualTo: clubId)
+          .get();
 
       return snap.docs.map((doc) {
         final data = doc.data();
-        return _mapper.from({
+        final withId = <String, dynamic>{
           ...data,
           FirestoreEventFields.id: doc.id,
-        });
+        };
+        return _mapper.from(withId);
       }).toList();
     } on FirebaseException catch (e) {
-      throw GetAllEventsException ('Firestore error: ${e.message}');
+      throw GetAllEventsException('Firestore error: ${e.message}');
     } catch (e) {
-      throw GetAllEventsException ('Erreur inattendue: $e');
+      throw GetAllEventsException('Erreur inattendue: $e');
     }
   }
-
 }

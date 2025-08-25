@@ -5,10 +5,11 @@ class Event {
   final DateTime startAt;
   final DateTime endAt;
   final String location;
-
+  final String clubId;
   final EventDetails details;
 
   const Event({
+    required this.clubId,
     required this.id,
     required this.startAt,
     required this.endAt,
@@ -17,4 +18,5 @@ class Event {
   });
 
   Duration get duration => endAt.difference(startAt);
+
 }

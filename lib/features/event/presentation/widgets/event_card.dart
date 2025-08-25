@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:volleyapp/app/di/service_locator.dart';
+import 'package:volleyapp/features/club/domain/use_cases/get_club_by_id/get_club_by_id_params.dart';
+import 'package:volleyapp/features/club/domain/use_cases/get_club_by_id/get_club_by_id_use_case.dart';
 import 'package:volleyapp/features/event/domain/entities/event.dart';
 import 'package:volleyapp/features/event/domain/entities/match_details.dart';
 import 'package:volleyapp/features/event/domain/entities/training_details.dart';
+import 'package:volleyapp/features/team/domain/use_cases/get_team_by_id/get_team_by_id_params.dart';
+import 'package:volleyapp/features/team/domain/use_cases/get_team_by_id/get_team_by_id_use_case.dart';
 
 
+Future<String> resolveClubName(String clubId) async {
+  final useCase = locator<GetClubByIdUseCase>();
+  final result = await useCase(GetClubByIdParams(clubId: clubId));
+
+  return result.fold(
+        (failure) => "Club inconnu",
+        (club) => club.name,
+  );
+}
+Future<String> resolveTeamName(String teamId) async {
+  final useCase = locator<GetTeamByIdUseCase>();
+  final result = await useCase(GetTeamByIdParams(teamId: teamId));
+
+  return result.fold(
+        (failure) => "Equipe inconnu",
+        (team) => team.name,
+  );
+}
 enum EventStatus { upcoming, live, finished }
 
 class EventCard extends StatelessWidget {
@@ -23,8 +46,8 @@ class EventCard extends StatelessWidget {
     final subtitle = _dateTimeRangeLabel(event.startAt, event.endAt);
     final location = event.location;
 
-    // Résumé (match terminé): ex "3–1"
-    final trailing = isMatch ? _matchTrailing(status, event.details as MatchDetails) : null;
+    final trailing =
+    isMatch ? _matchTrailing(status, event.details as MatchDetails) : null;
 
     return Card(
       elevation: 1,
@@ -62,14 +85,14 @@ class EventCard extends StatelessWidget {
         ),
         trailing: trailing,
         children: [
-          if (isMatch) _matchExpanded(context, event.details as MatchDetails, status),
-          if (isTraining) _trainingExpanded(context, event.details as TrainingDetails),
+          if (isMatch)
+            _matchExpanded(context, event.details as MatchDetails, status),
+          if (isTraining)
+            _trainingExpanded(context, event.details as TrainingDetails),
         ],
       ),
     );
   }
-
-  /// ---------- Helpers UI ----------
 
   EventStatus _computeStatus(Event e, DateTime now) {
     if (now.isBefore(e.startAt)) return EventStatus.upcoming;
@@ -80,19 +103,27 @@ class EventCard extends StatelessWidget {
   String _two(int n) => n.toString().padLeft(2, '0');
 
   String _dateTimeRangeLabel(DateTime start, DateTime end) {
-    final day = "${_two(start.day)}/${_two(start.month)}/${start.year}";
+    final startDay = "${_two(start.day)}/${_two(start.month)}/${start.year}";
     final startH = "${_two(start.hour)}:${_two(start.minute)}";
+
+    final endDay = "${_two(end.day)}/${_two(end.month)}/${end.year}";
     final endH = "${_two(end.hour)}:${_two(end.minute)}";
-    return "$day  •  $startH–$endH";
+
+    if (start.year == end.year &&
+        start.month == end.month &&
+        start.day == end.day) {
+      return "$startDay  •  $startH–$endH";
+    }
+
+    return "$startDay $startH → $endDay $endH";
   }
 
+
   String _matchTitle(MatchDetails d) {
-    // Tu n’as que des IDs pour l’instant — on les affiche.
-    // Plus tard, tu résoudras en noms de clubs/équipes.
     final compo = d.competition != null && d.competition!.isNotEmpty
         ? " • ${d.competition}"
         : "";
-    return "Match ${compo} – ${d.homeTeamId} vs ${d.awayTeamId}";
+    return "Match$compo";
   }
 
   Widget _statusChip(EventStatus status) {
@@ -127,7 +158,19 @@ class EventCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _kv("Clubs/Équipes", "${d.homeClubId}/${d.homeTeamId}  vs  ${d.awayClubId}/${d.awayTeamId}"),
+        FutureBuilder(
+          future: Future.wait([
+            resolveClubName(d.homeClubId),
+            resolveTeamName(d.homeTeamId),
+            resolveClubName(d.awayClubId),
+            resolveTeamName(d.awayTeamId),
+          ]),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const Text("Chargement...");
+            final data = snapshot.data!;
+            return _kv("Clubs/Équipes", "${data[0]} (${data[1]}) vs ${data[2]} (${data[3]})");
+          },
+        ),
         if (d.competition != null && d.competition!.isNotEmpty)
           _kv("Compétition", d.competition!),
         const SizedBox(height: 8),
@@ -135,8 +178,7 @@ class EventCard extends StatelessWidget {
           Text("Résultat final : ${r.homeSets}-${r.awaySets}",
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
-          if (r.sets.isEmpty)
-            const Text("Aucun détail des sets."),
+          if (r.sets.isEmpty) const Text("Aucun détail des sets."),
           if (r.sets.isNotEmpty)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,20 +192,6 @@ class EventCard extends StatelessWidget {
             ),
         ] else if (status == EventStatus.live) ...[
           const Text("Le match est en cours..."),
-          if (r != null && r.sets.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            const Text("Sets joués :"),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: r.sets.map((s) {
-                final line = "Set ${s.number} : ${s.homePoints}-${s.awayPoints}";
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Text(line),
-                );
-              }).toList(),
-            ),
-          ],
         ] else ...[
           const Text("Le match n’a pas encore commencé."),
         ],
@@ -172,20 +200,27 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _trainingExpanded(BuildContext context, TrainingDetails d) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _kv("Club", d.clubId),
-        _kv("Équipe", d.teamId),
-        if (d.coachId != null) _kv("Coach", d.coachId!),
-        if (d.notes != null && d.notes!.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          Text(
-            d.notes!,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ],
-      ],
+    return FutureBuilder(
+      future: Future.wait([
+        resolveClubName(d.clubId),
+        resolveTeamName(d.teamId),
+      ]),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Text("Chargement...");
+        final data = snapshot.data!;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _kv("Club", data[0]),
+            _kv("Équipe", data[1]),
+            if (d.coachId != null) _kv("Coach", d.coachId!),
+            if (d.notes != null && d.notes!.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(d.notes!, style: Theme.of(context).textTheme.bodyMedium),
+            ],
+          ],
+        );
+      },
     );
   }
 
@@ -195,8 +230,7 @@ class EventCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("$k : ",
-              style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text("$k : ", style: const TextStyle(fontWeight: FontWeight.w600)),
           Expanded(child: Text(v)),
         ],
       ),
@@ -215,7 +249,7 @@ class _Chip extends StatelessWidget {
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.surfaceContainerHighest;
     final fg = isAccent
-        ? Theme.of(context).colorScheme.primary
+        ? Theme.of(context).colorScheme.onPrimary
         : Theme.of(context).colorScheme.onSurfaceVariant;
 
     return Container(

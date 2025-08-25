@@ -41,4 +41,32 @@ class ClubRepositoryImpl implements ClubRepository {
       return Left(Failure('Get clubs filtered by name failed: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, Club>> getClubById({required String clubId}) async {
+    try {
+      final model = await _dataSource.getClubById(clubId: clubId);
+
+      if (model == null) {
+        return Left(Failure('Club not found with id: $clubId'));
+      }
+      final entity = _mapper.from(model);
+      return Right(entity);
+    } catch (e) {
+      return Left(Failure('Get club by id failed: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Club>>> getAllClub() async {
+    try {
+      final models = await _dataSource.getAllClub();
+      final entities = models.map(_mapper.from).toList();
+      return Right(entities);
+    } catch (e) {
+      return Left(Failure('Get all clubs failed: $e'));
+    }
+  }
+
+
 }

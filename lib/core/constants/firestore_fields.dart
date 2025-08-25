@@ -53,8 +53,8 @@ class FirestoreEventFields {
   static const String startAt = 'startAt';
   static const String endAt = 'endAt';
   static const String location = 'location';
-  static const String type = 'type';        // "match" | "training"
-  static const String details = 'details';  // Map<String, dynamic>
+  static const String type = 'type';
+  static const String details = 'details';
   static const String createdAt = 'createdAt';
 
   // ---- Sous-champs pour MatchDetails ----

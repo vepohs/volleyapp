@@ -8,6 +8,7 @@ class EventJsonMapper implements BaseMapper<Map<String, dynamic>, EventModel> {
   EventModel from(Map<String, dynamic> input) {
     return EventModel(
       id: input[FirestoreEventFields.id] as String,
+      clubId: input[FirestoreEventFields.clubId] as String,
       startAt: _toDateTime(input[FirestoreEventFields.startAt])!,
       endAt: _toDateTime(input[FirestoreEventFields.endAt])!,
       location: input[FirestoreEventFields.location] as String,
@@ -21,6 +22,7 @@ class EventJsonMapper implements BaseMapper<Map<String, dynamic>, EventModel> {
   Map<String, dynamic> to(EventModel output) {
     return {
       FirestoreEventFields.id: output.id,
+      FirestoreEventFields.clubId: output.clubId,
       FirestoreEventFields.startAt: output.startAt,
       FirestoreEventFields.endAt: output.endAt,
       FirestoreEventFields.location: output.location,

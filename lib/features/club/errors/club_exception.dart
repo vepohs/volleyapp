@@ -22,3 +22,6 @@ class WatchClubByIdException extends ClubException {
 class GetClubsFilteredByNameException extends ClubException {
   const GetClubsFilteredByNameException(super.message);
 }
+class GetAllClubsException extends ClubException {
+  const GetAllClubsException(super.message);
+}

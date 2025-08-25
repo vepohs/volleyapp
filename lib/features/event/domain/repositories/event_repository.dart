@@ -6,6 +6,7 @@ import 'package:volleyapp/features/event/domain/entities/result.dart';
 
 abstract class EventRepository {
   Future<Either<Failure, Event>> addEvent({
+    required String clubId,
     required DateTime startAt,
     required DateTime endAt,
     required String location,
@@ -19,5 +20,5 @@ abstract class EventRepository {
     required Result result,
   });
 
-  Future<Either<Failure, List<Event>>> getAllEvent();
+  Future<Either<Failure, List<Event>>> getAllEventByClubId({required String clubId});
 }

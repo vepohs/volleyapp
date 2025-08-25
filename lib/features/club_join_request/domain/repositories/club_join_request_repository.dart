@@ -14,5 +14,5 @@ abstract class ClubJoinRequestRepository {
 
   Future<Either<Failure, ClubJoinRequest>> cancel({required String requestId});
 
-  Future<Either<Failure, List<ClubJoinRequest>>> getAllClubJoinRequest();
+  Future<Either<Failure, List<ClubJoinRequest>>> getAllClubJoinRequestByClubId({required String clubId});
 }

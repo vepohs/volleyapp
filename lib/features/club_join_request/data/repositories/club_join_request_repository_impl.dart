@@ -61,9 +61,11 @@ class ClubRequestRepositoryImpl implements ClubJoinRequestRepository {
   }
 
   @override
-  Future<Either<Failure, List<ClubJoinRequest>>> getAllClubJoinRequest() async {
+  Future<Either<Failure, List<ClubJoinRequest>>> getAllClubJoinRequestByClubId({
+    required String clubId,
+  }) async {
     try {
-      final models = await _datasource.getAllClubJoinRequest();
+      final models = await _datasource.getAllClubJoinRequestByClubId(clubId: clubId);
       final entities = models.map((m) => _mapper.from(m)).toList();
       return Right(entities);
     } catch (e) {

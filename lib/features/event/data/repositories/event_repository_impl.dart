@@ -17,14 +17,15 @@ class EventRepositoryImpl implements EventRepository {
 
   @override
   Future<Either<Failure, Event>> addEvent({
+    required String clubId,
     required DateTime startAt,
     required DateTime endAt,
     required String location,
     required EventDetails details,
   }) async {
     try {
-
       final model = await _datasource.addEvent(
+        clubId: clubId,
         startAt: startAt,
         endAt: endAt,
         location: location,
@@ -39,9 +40,10 @@ class EventRepositoryImpl implements EventRepository {
     }
   }
 
-
   @override
-  Future<Either<Failure, Option<Event>>> getEventById({required String id}) async {
+  Future<Either<Failure, Option<Event>>> getEventById({
+    required String id,
+  }) async {
     try {
       final model = await _datasource.getEventById(id);
       if (model == null) return Right(None());
@@ -68,15 +70,15 @@ class EventRepositoryImpl implements EventRepository {
   }
 
   @override
-  Future<Either<Failure, List<Event>>> getAllEvent() async {
+  Future<Either<Failure, List<Event>>> getAllEventByClubId({
+    required String clubId,
+  }) async {
     try {
-      final models = await _datasource.getAllEvent();
+      final models = await _datasource.getAllEventByClubId(clubId: clubId);
       final entities = models.map((m) => _mapper.from(m)).toList();
       return Right(entities);
     } catch (e) {
       return Left(Failure('Get all events failed: $e'));
     }
   }
-
-
 }

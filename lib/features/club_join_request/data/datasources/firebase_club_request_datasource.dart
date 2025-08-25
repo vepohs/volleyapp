@@ -135,11 +135,12 @@ class FirebaseClubRequestDataSource implements ClubRequestDataSource {
       final updated = {
         ...data,
         FirestoreClubJoinRequestFields.status: 'canceled',
-        FirestoreClubJoinRequestFields.decidedAt: DateTime.now().toIso8601String(),
+        FirestoreClubJoinRequestFields.decidedAt: DateTime.now()
+            .toIso8601String(),
       };
 
       await ref.update(updated);
-      return _mapper.from(updated); // 👈 retourne bien la demande annulée
+      return _mapper.from(updated);
     } on FirebaseException catch (e) {
       throw CancelClubJoinRequestException("Firestore error: ${e.message}");
     } catch (e) {
@@ -147,22 +148,28 @@ class FirebaseClubRequestDataSource implements ClubRequestDataSource {
     }
   }
 
-
   @override
-  Future<List<ClubJoinRequestModel>> getAllClubJoinRequest() async {
+  Future<List<ClubJoinRequestModel>> getAllClubJoinRequestByClubId({
+    required String clubId,
+  }) async {
     try {
-      final snapshot = await _requestsCol
+      final qs = await _requestsCol
+          .where(FirestoreClubJoinRequestFields.clubId, isEqualTo: clubId)
+          .where(FirestoreClubJoinRequestFields.status, isEqualTo: 'pending')
           .orderBy(FirestoreClubJoinRequestFields.createdAt, descending: true)
           .get();
 
-      return snapshot.docs
-          .map((doc) => _mapper.from(doc.data()))
-          .toList();
+      return qs.docs.map((doc) {
+        final data = doc.data();
+        return _mapper.from({
+          ...data,
+          FirestoreClubJoinRequestFields.id: doc.id,
+        });
+      }).toList();
     } on FirebaseException catch (e) {
-      throw GetAllClubJoinRequestException("Firestore error: ${e.message}");
+      throw GetAllClubJoinRequestException('Firestore error: ${e.message}');
     } catch (e) {
-      throw GetAllClubJoinRequestException("Erreur inattendue: $e");
+      throw GetAllClubJoinRequestException('Erreur inattendue: $e');
     }
   }
-
 }

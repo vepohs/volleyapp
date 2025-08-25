@@ -8,4 +8,8 @@ abstract class TeamDataSource {
     required String level,
     String? avatarUrl,
   });
+
+  Future<List<TeamModel>> getAllTeamByIds(List<String> ids);
+
+  Future<TeamModel?> getTeamById({required String teamId});
 }

@@ -5,4 +5,6 @@ abstract class ClubTeamDataSource {
     required String clubId,
     required String teamId,
   });
+
+  Future<List<ClubTeamModel>> getClubTeamModelByClubId({required String clubId});
 }

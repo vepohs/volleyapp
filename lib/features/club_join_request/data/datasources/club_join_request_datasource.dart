@@ -12,5 +12,6 @@ abstract class ClubRequestDataSource {
 
   Future<ClubJoinRequestModel> cancel({required String requestId});
 
-  Future<List<ClubJoinRequestModel>> getAllClubJoinRequest();
+  Future<List<ClubJoinRequestModel>> getAllClubJoinRequestByClubId({required String clubId});
 }
+

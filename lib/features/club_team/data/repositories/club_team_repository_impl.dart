@@ -27,4 +27,21 @@ class ClubTeamRepositoryImpl implements ClubTeamRepository {
       return Left(Failure("Erreur lors de l’ajout du club-team: $e"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getAllTeamIdsByClubId({
+    required String clubId,
+  }) async {
+    try {
+      final links = await datasource.getClubTeamModelByClubId(clubId: clubId);
+      final ids = links.map((m) => m.teamId).toSet().toList();
+      return Right(ids);
+    } catch (e) {
+      return Left(Failure(
+        'Erreur lors de la récupération des teamIds pour le club $clubId: $e',
+      ));
+    }
+  }
+
+
 }

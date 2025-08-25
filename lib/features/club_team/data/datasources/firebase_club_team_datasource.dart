@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:volleyapp/core/constants/firestore_collections.dart';
+import 'package:volleyapp/core/constants/firestore_fields.dart';
 import 'package:volleyapp/features/club_team/data/datasources/club_team_datasource.dart';
 import 'package:volleyapp/features/club_team/data/mappers/club_team_json_mapper.dart';
 import 'package:volleyapp/features/club_team/data/models/club_team_model.dart';
@@ -32,4 +33,13 @@ class FirebaseClubTeamDatasource implements ClubTeamDataSource {
     return clubTeam;
   }
 
+  @override
+  Future<List<ClubTeamModel>> getClubTeamModelByClubId({required String clubId}) async {
+    final qs = await _clubTeamsCol.where(FirestoreClubTeamFields.clubId, isEqualTo: clubId).get();
+
+    return qs.docs.map((doc) {
+      final data = doc.data();
+      return _jsonMapper.from({...data, FirestoreClubTeamFields.id: doc.id});
+    }).toList();
+  }
 }

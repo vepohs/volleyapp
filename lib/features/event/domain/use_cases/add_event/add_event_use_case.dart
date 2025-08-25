@@ -13,6 +13,7 @@ class AddEventUseCase implements UseCase<Event, AddEventParams> {
   @override
   Future<Either<Failure, Event>> call(AddEventParams params) {
     return repository.addEvent(
+      clubId: params.clubId,
       startAt: params.startAt,
       endAt: params.endAt,
       location: params.location,

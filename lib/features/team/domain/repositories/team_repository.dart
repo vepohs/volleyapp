@@ -10,4 +10,7 @@ abstract class TeamRepository {
     required String level,
     String? avatarUrl,
   });
+
+  Future<Either<Failure, List<Team>>> getAllTeamByIds(List<String> ids) ;
+  Future<Either<Failure, Team>> getAllTeamById({required String teamId});
 }

@@ -32,7 +32,7 @@ class ClubMembershipRepositoryImpl implements ClubMembershipRepository {
   }
 
   @override
-  Future<Either<Failure, Option<ClubMembership>>> getClubByUserId({
+  Future<Either<Failure, Option<ClubMembership>>> getClubMemberShipByUserId({
     required String userId,
   }) async {
     try {
@@ -63,4 +63,5 @@ class ClubMembershipRepositoryImpl implements ClubMembershipRepository {
       yield const None();
     }
   }
+
 }

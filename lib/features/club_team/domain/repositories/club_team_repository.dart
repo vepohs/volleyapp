@@ -7,4 +7,6 @@ abstract class ClubTeamRepository {
     required String clubId,
     required String teamId,
   });
+
+  Future<Either<Failure, List<String>>> getAllTeamIdsByClubId({required String clubId});
 }

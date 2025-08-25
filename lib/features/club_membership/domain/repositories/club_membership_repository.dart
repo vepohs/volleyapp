@@ -10,7 +10,7 @@ abstract class ClubMembershipRepository {
     required Role role,
   });
 
-  Future<Either<Failure, Option<ClubMembership>>> getClubByUserId({
+  Future<Either<Failure, Option<ClubMembership>>> getClubMemberShipByUserId({
     required String userId,
   });
 

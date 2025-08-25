@@ -35,4 +35,34 @@ class TeamRepositoryImpl implements TeamRepository {
       return Left(Failure('Add team failed: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Team>>> getAllTeamByIds(List<String> ids) async {
+    try {
+      final models = await _dataSource.getAllTeamByIds(ids);
+      final entities = models.map(_mapper.from).toList();
+
+      return Right(entities);
+    } catch (e) {
+      return Left(Failure('Get all teams by ids failed: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Team>> getAllTeamById({required String teamId}) async {
+    try {
+      final model = await _dataSource.getTeamById(teamId: teamId);
+
+      if (model == null) {
+        return Left(Failure('Team not found with id: $teamId'));
+      }
+
+      final entity = _mapper.from(model);
+      return Right(entity);
+    } catch (e) {
+      return Left(Failure('Get team by id failed: $e'));
+    }
+  }
+
+
 }

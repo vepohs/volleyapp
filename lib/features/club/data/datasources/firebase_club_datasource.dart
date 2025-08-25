@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:volleyapp/core/constants/firestore_collections.dart';
+import 'package:volleyapp/core/constants/firestore_fields.dart';
 import 'package:volleyapp/features/club/data/datasources/club_datasource.dart';
 import 'package:volleyapp/features/club/data/mappers/club_json_mapper.dart';
 import 'package:volleyapp/features/club/data/models/club_model.dart';
@@ -50,6 +51,40 @@ class FirebaseClubDatasource implements ClubDataSource {
       throw GetClubsFilteredByNameException("Firestore error: ${e.message}");
     } catch (e) {
       throw GetClubsFilteredByNameException("Erreur inattendue: $e");
+    }
+  }
+
+  @override
+  Future<ClubModel?> getClubById({required String clubId}) async {
+    try {
+      final doc = await _clubsCol.doc(clubId).get();
+      if (!doc.exists) return null;
+
+      final data = doc.data();
+      if (data == null) return null;
+
+      return _jsonMapper.from({...data, FirestoreClubFields.id: doc.id});
+    } on FirebaseException catch (e) {
+      throw Exception("Firestore error: ${e.message}");
+    }
+  }
+
+  @override
+  Future<List<ClubModel>> getAllClub() async {
+    try {
+      final snapshot = await _clubsCol.get();
+
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        return _jsonMapper.from({
+          ...data,
+          FirestoreClubFields.id: doc.id,
+        });
+      }).toList();
+    } on FirebaseException catch (e) {
+      throw GetAllClubsException("Firestore error: ${e.message}");
+    } catch (e) {
+      throw GetAllClubsException("Erreur inattendue: $e");
     }
   }
 
