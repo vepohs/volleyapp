@@ -1,28 +1,25 @@
 import 'package:volleyapp/core/constants/club_join_request_values.dart';
-import 'package:volleyapp/core/mappers/base_mapper.dart';
 import 'package:volleyapp/features/club_join_request/data/models/club_join_request_model.dart';
 import 'package:volleyapp/features/club_join_request/domain/entities/club_join_request.dart';
+import 'package:volleyapp/features/user/domain/entities/user.dart';
 
-class ClubJoinRequestMapper
-    implements BaseMapper<ClubJoinRequestModel, ClubJoinRequest> {
-  @override
-  ClubJoinRequest from(ClubJoinRequestModel m) {
+class ClubJoinRequestMapper {
+  ClubJoinRequest from(ClubJoinRequestModel m, {required User user}) {
     return ClubJoinRequest(
       id: m.id,
       clubId: m.clubId,
-      userId: m.userId,
+      user: user,
       status: _statusFromString(m.status),
       createdAt: m.createdAt,
       decidedAt: m.decidedAt,
     );
   }
 
-  @override
   ClubJoinRequestModel to(ClubJoinRequest e) {
     return ClubJoinRequestModel(
       id: e.id,
       clubId: e.clubId,
-      userId: e.userId,
+      userId: e.user.id,
       status: _statusToString(e.status),
       createdAt: e.createdAt,
       decidedAt: e.decidedAt,

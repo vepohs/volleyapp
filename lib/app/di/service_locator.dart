@@ -134,7 +134,7 @@ Future<void> configureDependencies() async {
   );
 
   locator.registerLazySingleton<ClubJoinRequestRepository>(
-    () => ClubRequestRepositoryImpl(locator<ClubRequestDataSource>()),
+    () => ClubRequestRepositoryImpl(locator<ClubRequestDataSource>(),locator<UserRepository>()),
   );
   locator.registerLazySingleton<EventRepository>(
     () => EventRepositoryImpl(locator<EventDatasource>()),
