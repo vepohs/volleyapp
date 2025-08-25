@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_bloc.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_event.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_state.dart';
+import 'package:volleyapp/features/club_membership/domain/entities/role.dart';
 
 class RequestsBottomSheet extends StatelessWidget {
   const RequestsBottomSheet({super.key});
@@ -35,6 +36,15 @@ class RequestsBottomSheet extends StatelessWidget {
             final teams = state.teams;
             final requests = state.requests;
 
+            // Prépare les items de rôle une fois
+            final roleItems = Role.all
+                .where((r) => r.id != Role.presidenggggg.id) // exclut le président
+                .map((r) => DropdownMenuItem<String>(
+              value: r.id,
+              child: Text(r.name),
+            ))
+                .toList();
+
             return DraggableScrollableSheet(
               expand: false,
               initialChildSize: 0.6,
@@ -56,7 +66,7 @@ class RequestsBottomSheet extends StatelessWidget {
                           separatorBuilder: (_, __) => const SizedBox(height: 8),
                           itemBuilder: (context, i) {
                             final r = requests[i];
-                            final userName = r.user.firstname + "" + r.user.lastname;
+                            final userName = '${r.user.firstname} ${r.user.lastname}';
 
                             return Card(
                               elevation: 0.5,
@@ -67,6 +77,8 @@ class RequestsBottomSheet extends StatelessWidget {
                                   children: [
                                     Text(userName, style: Theme.of(context).textTheme.titleMedium),
                                     const SizedBox(height: 8),
+
+                                    // Dropdown des équipes
                                     DropdownButtonFormField<String>(
                                       decoration: const InputDecoration(
                                         labelText: 'Affecter à une équipe',
@@ -78,9 +90,25 @@ class RequestsBottomSheet extends StatelessWidget {
                                         child: Text(t.name),
                                       ))
                                           .toList(),
-                                      onChanged: (_) {},
+                                      value: null, // pas de valeur par défaut pour l’instant
+                                      onChanged: (_) {}, // à brancher plus tard
                                     ),
+
                                     const SizedBox(height: 12),
+
+                                    // Dropdown des rôles
+                                    DropdownButtonFormField<String>(
+                                      decoration: const InputDecoration(
+                                        labelText: 'Rôle',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      items: roleItems,
+                                      value: null, // pas de valeur par défaut pour l’instant
+                                      onChanged: (_) {}, // à brancher plus tard
+                                    ),
+
+                                    const SizedBox(height: 12),
+
                                     Row(
                                       children: [
                                         Expanded(

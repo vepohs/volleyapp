@@ -9,6 +9,7 @@ import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_cl
 import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_use_case.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_event.dart';
 import 'package:volleyapp/features/club_join_request/presentation/blocs/request_model_bloc/request_modal_state.dart';
+import 'package:volleyapp/features/club_membership/domain/entities/role.dart';
 import 'package:volleyapp/features/club_membership/domain/use_cases/get_club_for_current_user/get_club_for_current_user_use_case.dart';
 import 'package:volleyapp/features/club_team/domain/use_cases/get_all_team_by_club_id/get_all_team_by_club_id_params.dart';
 import 'package:volleyapp/features/club_team/domain/use_cases/get_all_team_by_club_id/get_all_team_by_club_id_use_case.dart';
@@ -53,6 +54,8 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
           GetAllClubJoinRequestByClubIdParams(club.id),
         );
 
+
+
         if (teamsEither.isLeft()) {
           emit(RequestsModalError(
               teamsEither.swap().getOrElse(() => Failure('Erreur équipes')).message));
@@ -76,7 +79,6 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
       ApproveRequestPressed event,
       Emitter<RequestsModalState> emit,
       ) async {
-    // Option simple : re-passe en loading global, approuve, puis recharge
     emit(RequestsModalLoading());
     final result =
     await _approveRequest(ApproveClubJoinRequestParams(requestId: event.requestId));
