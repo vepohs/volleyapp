@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:volleyapp/app/routing/app_route.dart';
 import 'package:volleyapp/app/routing/go_router_refresh_stream.dart';
-import 'package:volleyapp/features/auth/presentation/pages/home_page.dart';
+import 'package:volleyapp/features/event/presentation/pages/event_page.dart';
 import 'package:volleyapp/features/club/presentation/pages/club_page.dart';
 import 'package:volleyapp/features/club/presentation/pages/create_or_join_club_page.dart';
-import 'package:volleyapp/features/club/presentation/pages/create_team_page.dart';
+import 'package:volleyapp/features/team/presentation/pages/create_team_page.dart';
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
 import 'package:volleyapp/features/session/domain/session_status.dart';
 import 'package:volleyapp/features/auth/presentation/pages/splash_page.dart';
@@ -57,9 +57,9 @@ GoRouter createRouter(SessionStateProvider session) {
         builder: (_, __) => const AddUserPage(),
       ),
       GoRoute(
-        name: AppRoute.home.name,
-        path: AppRoute.home.path,
-        builder: (_, __) => const HomePage(),
+        name: AppRoute.event.name,
+        path: AppRoute.event.path,
+        builder: (_, __) => const EventPage(),
       ),
       GoRoute(
         name: AppRoute.addJoinClub.name,
@@ -119,9 +119,9 @@ GoRouter createRouter(SessionStateProvider session) {
             return target;
           }
           // Si l’URL demandée est protégée mais autre chose que home, on garde pending → home
-          if (isProtected(loc) && !isAt(state, AppRoute.home)) {
+          if (isProtected(loc) && !isAt(state, AppRoute.event)) {
             pending ??= fullUri;
-            return AppRoute.home.path;
+            return AppRoute.event.path;
           }
           return null;
 
@@ -131,8 +131,8 @@ GoRouter createRouter(SessionStateProvider session) {
               isAt(state, AppRoute.signIn) ||
               isAt(state, AppRoute.signUp) ||
               isAt(state, AppRoute.completeProfile) ||
-              isAt(state, AppRoute.home)) { // s'il traine sur la home, on envoie au club
-            final target = pending ?? AppRoute.home.path;
+              isAt(state, AppRoute.event)) { // s'il traine sur la home, on envoie au club
+            final target = pending ?? AppRoute.event.path;
             pending = null;
             return target;
           }

@@ -3,7 +3,7 @@ enum AppRoute {
   signIn,
   signUp,
   completeProfile,
-  home,
+  event,
   error,
   addJoinClub,
   team,
@@ -21,8 +21,8 @@ extension AppRouteX on AppRoute {
         return '/sign_up';
       case AppRoute.completeProfile:
         return '/complete_profile';
-      case AppRoute.home:
-        return '/home';
+      case AppRoute.event:
+        return '/event';
       case AppRoute.error:
         return '/error';
       case AppRoute.addJoinClub:

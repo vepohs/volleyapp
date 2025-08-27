@@ -62,7 +62,6 @@ Widget build(BuildContext context) {
             ),
             const SizedBox(height: 24),
 
-            // Bouton Connexion
             BlocBuilder<SignInFormBloc, SignInFormState>(
               buildWhen: (prev, curr) =>
               prev.isSubmitting != curr.isSubmitting,
@@ -100,7 +99,6 @@ Widget build(BuildContext context) {
 
             const SizedBox(height: 16),
 
-            // Lien vers SignUp (on garde, c’est pas une redirection automatique)
             ElevatedButton(
               onPressed: () => context.go(AppRoute.signUp.path),
               child: const Text("Créer un compte"),

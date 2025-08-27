@@ -5,7 +5,7 @@ import 'package:volleyapp/app/di/service_locator.dart';
 import 'package:volleyapp/app/routing/app_route.dart';
 import 'package:volleyapp/features/club/presentation/blocs/team_bloc/team_bloc.dart';
 import 'package:volleyapp/features/club/presentation/blocs/team_bloc/team_event.dart';
-import 'package:volleyapp/features/club/presentation/widgets/team_list.dart';
+import 'package:volleyapp/features/team/presentation/widgets/team_list.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/approve_club_join_request/approve_club_join_request_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/get_all_club_join_request_by_club_id/get_all_club_join_request_by_club_id_use_case.dart';
 import 'package:volleyapp/features/club_join_request/domain/use_cases/reject_club_join_request/reject_club_join_request_use_case.dart';

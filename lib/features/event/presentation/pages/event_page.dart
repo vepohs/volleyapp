@@ -16,8 +16,8 @@ import 'package:volleyapp/features/event/presentation/blocs/get_all_event/get_al
 import 'package:volleyapp/features/event/presentation/widgets/create_event_button.dart';
 import 'package:volleyapp/features/event/presentation/widgets/event_list_view.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class EventPage extends StatelessWidget {
+  const EventPage({super.key});
 
   @override
   Widget build(BuildContext context) {
