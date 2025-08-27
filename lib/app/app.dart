@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,21 +26,12 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => DummyCubit()),
-      ],
-      child: MaterialApp.router(
-        title: AppConfig.appName,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        themeMode: ThemeMode.system,
-        routerConfig: _router,
-      ),
+    return MaterialApp.router(
+      title: AppConfig.appName,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
+      routerConfig: _router,
     );
   }
-}
-
-class DummyCubit extends Cubit<void> {
-  DummyCubit() : super(null);
 }
