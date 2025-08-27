@@ -15,7 +15,6 @@ import 'package:volleyapp/features/user/presentation/pages/add_user_page.dart';
 
 
 GoRouter createRouter(SessionStateProvider session) {
-  // Deep-link protégé mémorisé
   String? pending;
 
   bool isPublic(String path) => {
@@ -101,24 +100,23 @@ GoRouter createRouter(SessionStateProvider session) {
         case SessionStatus.profileIncomplete:
           if (!isAt(state, AppRoute.completeProfile)) {
             if (isAt(state, AppRoute.splash)) {
-              // no-op
+
             }
             return AppRoute.completeProfile.path;
           }
           return null;
 
         case SessionStatus.noClub:
-        // profil OK mais pas de club -> dirige vers CreateOrJoinClubPage (home)
           if (isAt(state, AppRoute.splash) ||
               isAt(state, AppRoute.signIn) ||
               isAt(state, AppRoute.signUp) ||
               isAt(state, AppRoute.completeProfile) ||
-              isAt(state, AppRoute.addJoinClub)) { // si on se retrouve au club, on renvoie home
+              isAt(state, AppRoute.addJoinClub)) {
             final target = pending ?? AppRoute.addJoinClub.path;
             pending = null;
             return target;
           }
-          // Si l’URL demandée est protégée mais autre chose que home, on garde pending → home
+
           if (isProtected(loc) && !isAt(state, AppRoute.event)) {
             pending ??= fullUri;
             return AppRoute.event.path;
@@ -126,12 +124,12 @@ GoRouter createRouter(SessionStateProvider session) {
           return null;
 
         case SessionStatus.inClub:
-        // connecté + profil OK + a un club -> bascule vers ClubPage
+
           if (isAt(state, AppRoute.splash) ||
               isAt(state, AppRoute.signIn) ||
               isAt(state, AppRoute.signUp) ||
               isAt(state, AppRoute.completeProfile) ||
-              isAt(state, AppRoute.event)) { // s'il traine sur la home, on envoie au club
+              isAt(state, AppRoute.event)) {
             final target = pending ?? AppRoute.event.path;
             pending = null;
             return target;

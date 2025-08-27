@@ -112,8 +112,6 @@ class JoinClubBloc extends Bloc<JoinClubEvent, JoinClubState> {
     );
   }
   String _failureMessage(Failure f) {
-    // Adapte si tu as des sous-classes (NetworkFailure, ServerFailure, etc.)
-    // et/ou une propriété `message`. Par défaut :
     return f.toString();
   }
 

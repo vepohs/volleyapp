@@ -45,7 +45,6 @@ class AddUserBloc extends Bloc<AddUserEvent, AddUserState> {
 
   void _onBirthdateChanged(
       BirthdateChanged event, Emitter<AddUserState> emit) {
-    //TODO ? ajouter age minimum ?
     emit(state.copyWith(
       birthdate: event.birthdate,
       birthdateError: null,
@@ -91,7 +90,7 @@ class AddUserBloc extends Bloc<AddUserEvent, AddUserState> {
           id: user.uid,
           firstname: state.firstName.trim(),
           lastname: state.lastName.trim(),
-          email: user.email!, // TODO jcp si ! vrm meilleur pratique après normalement impossible on vient de créer compte
+          email: user.email!,
           birthdate: state.birthdate!,
       ));
 
@@ -108,8 +107,6 @@ class AddUserBloc extends Bloc<AddUserEvent, AddUserState> {
      );
 
     } catch (err) {
-      // Tu n’as pas de submitError dans le state → on se contente de reset isSubmitting
-      // (Si tu veux afficher un SnackBar global, ajoute un champ submitError dans AddUserState)
       emit(state.copyWith(isSubmitting: false, isSuccess: false));
     }
   }

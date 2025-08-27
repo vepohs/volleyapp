@@ -1,4 +1,3 @@
-// features/club_request/errors/club_request_exception.dart
 abstract class ClubRequestException implements Exception {
   final String message;
 

@@ -23,7 +23,6 @@ class TrainingFields extends StatelessWidget {
                   child: ClubPicker(
                     initialValue: state.trainingClubId,
                     onChanged: (cid) {
-                      // reset team dans le bloc
                       context.read<CreateEventBloc>().add(TrainingClubChanged(cid));
                     },
                   ),

@@ -109,11 +109,9 @@ class FirebaseAuthDatasource implements AuthDatasource {
       UserCredential userCredential;
 
       if (kIsWeb) {
-        // 🔹 Web → signInWithPopup directement
         final googleProvider = GoogleAuthProvider();
         userCredential = await firebaseAuth.signInWithPopup(googleProvider);
       } else {
-        // 🔹 Mobile → utiliser GoogleSignIn.authenticate()
         final googleUser = await GoogleSignIn.instance.authenticate();
 
         final googleAuth = googleUser.authentication;

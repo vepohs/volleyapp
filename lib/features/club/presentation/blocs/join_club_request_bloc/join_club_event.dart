@@ -12,4 +12,4 @@ class ClubSelected extends JoinClubEvent {
   ClubSelected(this.club);
 }
 
-class SubmitJoinClub extends JoinClubEvent {} // non utilisé ici
+class SubmitJoinClub extends JoinClubEvent {}

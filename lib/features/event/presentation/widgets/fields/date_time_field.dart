@@ -4,7 +4,7 @@ class DateTimeField extends StatelessWidget {
   final String label;
   final DateTime? value;
   final VoidCallback onTap;
-  final String? errorText; // 👈
+  final String? errorText;
 
   const DateTimeField({
     super.key,
@@ -29,7 +29,7 @@ class DateTimeField extends StatelessWidget {
           labelText: label,
           prefixIcon: const Icon(Icons.schedule_outlined),
           border: const OutlineInputBorder(),
-          errorText: errorText, // 👈 affiche l'erreur
+          errorText: errorText,
         ),
         child: Text(txt),
       ),

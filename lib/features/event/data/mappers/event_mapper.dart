@@ -65,8 +65,6 @@ class EventMapper implements BaseMapper<EventModel, Event> {
     );
   }
 
-  /// ---- Helpers utilisés par le RepositoryImpl ----
-
   String typeFromDetails(EventDetails details) {
     if (details is MatchDetails) return 'match';
     if (details is TrainingDetails) return 'training';

@@ -14,14 +14,14 @@ class RequestsModalLoaded extends RequestsModalState {
   final List<ClubJoinRequest> requests;
 
   final Map<String, String?> selectedTeamByRequest;
-  final Map<String, String?> selectedRoleByRequest; // NEW
+  final Map<String, String?> selectedRoleByRequest;
 
   RequestsModalLoaded({
     required this.club,
     required this.teams,
     required this.requests,
     required this.selectedTeamByRequest,
-    required this.selectedRoleByRequest, // NEW
+    required this.selectedRoleByRequest,
   });
 
   RequestsModalLoaded copyWith({
@@ -29,14 +29,14 @@ class RequestsModalLoaded extends RequestsModalState {
     List<Team>? teams,
     List<ClubJoinRequest>? requests,
     Map<String, String?>? selectedTeamByRequest,
-    Map<String, String?>? selectedRoleByRequest, // NEW
+    Map<String, String?>? selectedRoleByRequest,
   }) {
     return RequestsModalLoaded(
       club: club ?? this.club,
       teams: teams ?? this.teams,
       requests: requests ?? this.requests,
       selectedTeamByRequest: selectedTeamByRequest ?? this.selectedTeamByRequest,
-      selectedRoleByRequest: selectedRoleByRequest ?? this.selectedRoleByRequest, // NEW
+      selectedRoleByRequest: selectedRoleByRequest ?? this.selectedRoleByRequest,
     );
   }
 }

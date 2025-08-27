@@ -16,12 +16,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   );
 
   if (!kIsWeb) {
-    // Android / iOS → serverClientId requis
     await GoogleSignIn.instance.initialize(
       serverClientId: "269709383838-400gk9rr7vs2tqpomac38afi4eufilqc.apps.googleusercontent.com",
     );
   } else {
-    // Web → pas de serverClientId
     await GoogleSignIn.instance.initialize();
   }
 

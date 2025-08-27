@@ -6,7 +6,7 @@ class CreateEventState {
   final DateTime? endAt;
   final String location;
 
-  final String? homeClubId;   // IDs only
+  final String? homeClubId;
   final String? homeTeamId;
   final String? awayClubId;
   final String? awayTeamId;
@@ -17,7 +17,6 @@ class CreateEventState {
   final String coachId;
   final String notes;
 
-  // ----- Field errors -----
   final String? startAtError;
   final String? endAtError;
   final String? locationError;
@@ -25,10 +24,9 @@ class CreateEventState {
   final String? awayClubTeamError;
   final String? trainingClubTeamError;
 
-  // ----- Submit/result -----
   final bool submitting;
   final bool? success;
-  final String? error; // erreur "globale" (ex: remontée back)
+  final String? error;
 
   const CreateEventState({
     required this.kind,
@@ -95,7 +93,6 @@ class CreateEventState {
     String? coachId,
     String? notes,
 
-    // field errors
     String? startAtError,
     String? endAtError,
     String? locationError,
@@ -103,12 +100,10 @@ class CreateEventState {
     String? awayClubTeamError,
     String? trainingClubTeamError,
 
-    // submit/result
     bool? submitting,
     bool? success,
     String? error,
 
-    // util: remettre à zéro toutes les erreurs de champ
     bool clearFieldErrors = false,
   }) {
     return CreateEventState(

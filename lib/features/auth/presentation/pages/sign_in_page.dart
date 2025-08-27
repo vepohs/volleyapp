@@ -41,7 +41,6 @@ Widget build(BuildContext context) {
           SnackBar(content: Text(state.submitError!)),
         );
       }
-      // plus de context.go() → GoRouter gère la redirection
     },
     child: Scaffold(
       appBar: AppBar(title: const Text("Connexion")),
@@ -86,7 +85,6 @@ Widget build(BuildContext context) {
 
             const SizedBox(height: 16),
 
-            // Bouton Google
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

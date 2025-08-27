@@ -38,7 +38,7 @@ class CreateTeamFormView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: BlocListener<CreateTeamFormBloc, CreateTeamFormState>(
           listenWhen: (previous, current) =>
-          previous.isSuccess != current.isSuccess, // écoute uniquement quand isSuccess change
+          previous.isSuccess != current.isSuccess,
           listener: (context, state) async {
             if (state.isSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +47,6 @@ class CreateTeamFormView extends StatelessWidget {
                   duration: Duration(seconds: 2),
                 ),
               );
-              // Attends la fin de l'affichage
               await Future.delayed(const Duration(seconds: 1));
               if (context.mounted) context.pop(true);
             }

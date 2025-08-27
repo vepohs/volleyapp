@@ -54,7 +54,6 @@ class CreateTeamFormBloc extends Bloc<CreateTeamFormEvent, CreateTeamFormState> 
   }
 
   void _onAvatarChanged(TeamAvatarChanged e, Emitter<CreateTeamFormState> emit) {
-    // avatar optionnel
     emit(state.copyWith(avatarUrl: e.avatarUrl));
   }
 

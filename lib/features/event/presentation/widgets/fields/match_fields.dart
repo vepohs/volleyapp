@@ -83,7 +83,7 @@ class _ClubTeamRow extends StatelessWidget {
                     onChanged: (cid) {
                       final bloc = context.read<CreateEventBloc>();
                       if (isHome) {
-                        bloc.add(HomeClubChanged(cid)); // reset team fait dans le bloc
+                        bloc.add(HomeClubChanged(cid));
                       } else {
                         bloc.add(AwayClubChanged(cid));
                       }
@@ -93,8 +93,8 @@ class _ClubTeamRow extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: TeamPicker(
-                    clubId: clubId,          // charge les équipes du club choisi
-                    initialValue: teamId,    // re-sélection si dispo
+                    clubId: clubId,
+                    initialValue: teamId,
                     onChanged: (tid) {
                       final bloc = context.read<CreateEventBloc>();
                       if (isHome) {

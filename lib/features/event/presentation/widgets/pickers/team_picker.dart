@@ -20,7 +20,6 @@ class TeamPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // recrée bloc quand le club change
     return KeyedSubtree(
       key: ValueKey(clubId),
       child: BlocProvider(

@@ -24,7 +24,6 @@ class LocationChanged extends CreateEventEvent {
   const LocationChanged(this.value);
 }
 
-// ---- Match (séparés) ----
 class HomeClubChanged extends CreateEventEvent {
   final String clubId;
   const HomeClubChanged(this.clubId);
@@ -45,7 +44,6 @@ class AwayTeamChanged extends CreateEventEvent {
   const AwayTeamChanged(this.teamId);
 }
 
-// ---- Training (séparés) ----
 class TrainingClubChanged extends CreateEventEvent {
   final String clubId;
   const TrainingClubChanged(this.clubId);

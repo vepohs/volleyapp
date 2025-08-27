@@ -75,7 +75,6 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
         final teams = teamsEither.getOrElse(() => <Team>[]);
         final requests = requestsEither.getOrElse(() => <ClubJoinRequest>[]);
 
-        // Préserver sélections existantes si reload
         Map<String, String?> prevTeams = {};
         Map<String, String?> prevRoles = {};
         final current = state;
@@ -92,7 +91,7 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
           teams: teams,
           requests: requests,
           selectedTeamByRequest: selectedTeamMap,
-          selectedRoleByRequest: selectedRoleMap, // NEW
+          selectedRoleByRequest: selectedRoleMap,
         ));
       },
     );
@@ -131,7 +130,6 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
     final current = state;
     if (current is! RequestsModalLoaded) return;
 
-    // 1) Récupérer les sélections pour cette demande
     final String? selectedTeamId = current.selectedTeamByRequest[event.requestId];
     final String? selectedRoleId = current.selectedRoleByRequest[event.requestId];
 
@@ -140,22 +138,17 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
       return;
     }
 
-    // 2) Retrouver la demande et les infos nécessaires
     final req = current.requests.firstWhere(
           (r) => r.id == event.requestId,
       orElse: () => throw StateError("Demande introuvable dans l'état."),
     );
 
-    // Selon ton modèle, adapte la récupération du userId.
-    // Tu as affiché r.user.firstname/lastname en UI, donc on suppose r.user.id existe.
     final String userId = (req.user.id);
     final String clubId = current.club.id;
     final role = Role.fromId(selectedRoleId);
 
     emit(RequestsModalLoading());
 
-    // 3) Ajouter le user comme membre du club AVANT d'approuver la demande.
-    // (si cet ajout échoue, on n'approuve pas la demande pour ne pas créer d'incohérence)
     final membershipEither = await _addMembership(
       AddClubMembershipParams(
         clubId: clubId,
@@ -172,15 +165,12 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
           (_) async => true,
     );
     if (!membershipOk) return;
-
-    // 4) Approuver la demande
     final approveEither =
     await _approveRequest(ApproveClubJoinRequestParams(requestId: event.requestId));
 
     await approveEither.fold(
           (failure) async => emit(RequestsModalError(failure.message)),
           (_) async {
-        // 5) Recharger la liste (préserve les sélections existantes dans _onLoad)
         add(LoadRequestsModal());
       },
     );
@@ -200,8 +190,6 @@ class RequestsModalBloc extends Bloc<RequestsModalEvent, RequestsModalState> {
     await either.fold(
           (failure) async => emit(RequestsModalError(failure.message)),
           (_) async {
-        // Optionnel : nettoyer les sélections pour cette demande dans l'état courant
-        // mais comme on recharge, pas nécessaire.
         add(LoadRequestsModal());
       },
     );

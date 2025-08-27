@@ -24,7 +24,7 @@ class ClubPage extends StatelessWidget {
       create: (_) => TeamBloc(
         getClubForCurrentUserUseCase: locator<GetClubForCurrentUserUseCase>(),
         getAllTeamByClubId: locator<GetAllTeamByClubId>(),
-      )..add(LoadMyClubTeams()), // 1er chargement
+      )..add(LoadMyClubTeams()),
       child: Builder(
         builder: (context) {
           return Scaffold(
@@ -35,7 +35,7 @@ class ClubPage extends StatelessWidget {
               ),
               title: const Text("Mettre le nom du club quand clubBloc ok"),
             ),
-            body: const TeamList(), // ne crée plus de BlocProvider ici
+            body: const TeamList(),
             bottomNavigationBar: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -44,9 +44,7 @@ class ClubPage extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          // on attend le résultat de la page de création
                           final created = await context.push<bool>(AppRoute.team.path);
-                          // si créé, on recharge
                           if (created == true && context.mounted) {
                             context.read<TeamBloc>().add(LoadMyClubTeams());
                           }

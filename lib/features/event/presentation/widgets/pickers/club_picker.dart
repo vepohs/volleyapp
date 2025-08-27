@@ -28,7 +28,6 @@ class ClubPicker extends StatelessWidget {
           }
 
           if (state is ClubPickerLoaded) {
-            // 👇 appliquer initialValue seulement après chargement
             if (initialValue != null &&
                 state.selectedClubId == null &&
                 state.clubs.any((c) => c.id == initialValue)) {

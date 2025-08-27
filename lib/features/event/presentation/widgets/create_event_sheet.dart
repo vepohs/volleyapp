@@ -68,7 +68,6 @@ class CreateEventSheet extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      // Type
                       Row(children: [
                         Expanded(
                           child: RadioListTile<CreateEventKind>(
@@ -93,13 +92,12 @@ class CreateEventSheet extends StatelessWidget {
                       ]),
                       const SizedBox(height: 8),
 
-                      // Date / Heure
                       Row(children: [
                         Expanded(
                           child: DateTimeField(
                             label: 'Début',
                             value: state.startAt,
-                            errorText: state.startAtError, // 👈
+                            errorText: state.startAtError,
                             onTap: () async {
                               final bloc = context.read<CreateEventBloc>();
                               final dt = await _pickDateTime(context, initial: state.startAt);
@@ -113,7 +111,7 @@ class CreateEventSheet extends StatelessWidget {
                           child: DateTimeField(
                             label: 'Fin',
                             value: state.endAt,
-                            errorText: state.endAtError, // 👈
+                            errorText: state.endAtError,
                             onTap: () async {
                               final bloc = context.read<CreateEventBloc>();
                               final dt = await _pickDateTime(context, initial: state.endAt);
@@ -125,13 +123,12 @@ class CreateEventSheet extends StatelessWidget {
                       ]),
                       const SizedBox(height: 8),
 
-                      // Lieu
                       TextFormField(
                         initialValue: state.location,
                         decoration: InputDecoration(
                           labelText: 'Lieu',
                           prefixIcon: const Icon(Icons.place_outlined),
-                          errorText: state.locationError, // 👈
+                          errorText: state.locationError,
                         ),
                         onChanged: (v) =>
                             context.read<CreateEventBloc>().add(LocationChanged(v)),

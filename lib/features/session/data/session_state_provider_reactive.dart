@@ -53,8 +53,6 @@ class SessionStateProviderReactive implements SessionStateProvider {
                 _set(SessionStatus.profileIncomplete);
                 return;
               }
-
-              // ✅ profil complet -> écouter membership
               _membershipSub?.cancel();
               _membershipSub = _membershipRepo
                   .watchClubByUserId(userId: authUser.id)

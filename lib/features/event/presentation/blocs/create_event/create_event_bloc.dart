@@ -21,7 +21,6 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
   })  : _addEvent = addEventUseCase,
         _getClubForCurrentUserUseCase = getClubForCurrentUserUseCase,
         super(CreateEventState.initial()) {
-    // généraux
     on<EventKindChanged>((e, emit) => emit(state.copyWith(kind: e.kind, clearFieldErrors: true)));
     on<StartAtChanged>((e, emit) => emit(state.copyWith(startAt: e.value, startAtError: null)));
     on<EndAtChanged>((e, emit) => emit(state.copyWith(endAt: e.value, endAtError: null)));
@@ -30,10 +29,9 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
     on<CoachChanged>((e, emit) => emit(state.copyWith(coachId: e.value)));
     on<NotesChanged>((e, emit) => emit(state.copyWith(notes: e.value)));
 
-    // match séparés
     on<HomeClubChanged>((e, emit) => emit(state.copyWith(
       homeClubId: e.clubId,
-      homeTeamId: null, // reset team
+      homeTeamId: null,
       homeClubTeamError: null,
     )));
     on<HomeTeamChanged>((e, emit) => emit(state.copyWith(
@@ -43,7 +41,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
 
     on<AwayClubChanged>((e, emit) => emit(state.copyWith(
       awayClubId: e.clubId,
-      awayTeamId: null, // reset team
+      awayTeamId: null,
       awayClubTeamError: null,
     )));
     on<AwayTeamChanged>((e, emit) => emit(state.copyWith(
@@ -51,10 +49,9 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
       awayClubTeamError: null,
     )));
 
-    // training séparés
     on<TrainingClubChanged>((e, emit) => emit(state.copyWith(
       trainingClubId: e.clubId,
-      trainingTeamId: null, // reset team
+      trainingTeamId: null,
       trainingClubTeamError: null,
     )));
     on<TrainingTeamChanged>((e, emit) => emit(state.copyWith(

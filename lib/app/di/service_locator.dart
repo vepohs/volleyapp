@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 
-// Auth
+
 import 'package:volleyapp/features/auth/data/datasources/auth_datasource.dart';
 import 'package:volleyapp/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:volleyapp/features/auth/data/repositories/auth_repositoryImpl.dart';
@@ -65,14 +65,14 @@ import 'package:volleyapp/features/user/data/repositories/user_repository.dart';
 import 'package:volleyapp/features/user/domain/repositories/user_repository.dart';
 import 'package:volleyapp/features/user/domain/use_cases/add_user/add_user_usecase.dart';
 
-// Session (réactive)
+
 import 'package:volleyapp/features/session/domain/session_state_provider.dart';
 import 'package:volleyapp/features/session/data/session_state_provider_reactive.dart';
 
 final locator = GetIt.instance;
 
 Future<void> configureDependencies() async {
-  // Core
+
   locator.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   locator.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,

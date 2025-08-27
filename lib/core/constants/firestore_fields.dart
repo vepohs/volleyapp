@@ -57,7 +57,7 @@ class FirestoreEventFields {
   static const String details = 'details';
   static const String createdAt = 'createdAt';
 
-  // ---- Sous-champs pour MatchDetails ----
+
   static const String homeClubId = 'homeClubId';
   static const String homeTeamId = 'homeTeamId';
   static const String awayClubId = 'awayClubId';
@@ -65,16 +65,16 @@ class FirestoreEventFields {
   static const String competition = 'competition';
   static const String result = 'result';
 
-  // ---- Sous-champs pour Result ----
+
   static const String sets = 'sets';
   static const String updatedAt = 'updatedAt';
 
-  // ---- Sous-champs pour SetScore ----
+
   static const String number = 'number';
   static const String homePoints = 'homePoints';
   static const String awayPoints = 'awayPoints';
 
-  // ---- Sous-champs pour TrainingDetails ----
+
   static const String clubId = 'clubId';
   static const String teamId = 'teamId';
   static const String coachId = 'coachId';

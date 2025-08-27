@@ -16,7 +16,7 @@ class CreateClubNameField extends StatelessWidget {
       builder: (context, slice) {
         return TextFormField(
           enabled: !slice.submitting,
-          initialValue: slice.name, // lu au 1er build
+          initialValue: slice.name,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
             labelText: 'Nom du club',

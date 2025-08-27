@@ -36,9 +36,8 @@ class RequestsBottomSheet extends StatelessWidget {
             final teams = state.teams;
             final requests = state.requests;
 
-            // Prépare les items de rôle une fois
             final roleItems = Role.all
-                .where((r) => r.id != Role.presidenggggg.id) // exclut le président
+                .where((r) => r.id != Role.presidenggggg.id)
                 .map((r) => DropdownMenuItem<String>(
               value: r.id,
               child: Text(r.name),
@@ -68,8 +67,7 @@ class RequestsBottomSheet extends StatelessWidget {
                             final r = requests[i];
                             final userName = '${r.user.firstname} ${r.user.lastname}';
 
-                            // ✅ Récupère la valeur sélectionnée depuis le state (RequestsModalLoaded)
-                            final loaded = state; // ici, state est déjà RequestsModalLoaded
+                            final loaded = state;
                             final String? selectedTeamId = loaded.selectedTeamByRequest[r.id];
 
                             return Card(
@@ -82,7 +80,6 @@ class RequestsBottomSheet extends StatelessWidget {
                                     Text(userName, style: Theme.of(context).textTheme.titleMedium),
                                     const SizedBox(height: 8),
 
-                                    // Dropdown des équipes (valeur contrôlée par le BLoC)
                                     DropdownButtonFormField<String>(
                                       decoration: const InputDecoration(
                                         labelText: 'Affecter à une équipe',
@@ -95,7 +92,6 @@ class RequestsBottomSheet extends StatelessWidget {
                                       ))
                                           .toList(),
                                       onChanged: (value) {
-                                        // ✅ Remonte la sélection dans le BLoC
                                         context.read<RequestsModalBloc>().add(
                                           TeamSelectionChanged(requestId: r.id, teamId: value),
                                         );
@@ -136,7 +132,7 @@ class RequestsBottomSheet extends StatelessWidget {
                                               context.read<RequestsModalBloc>().add(
                                                 ApproveRequestPressed(requestId: r.id),
                                               );
-                                            }, // plus tard: accept
+                                            },
                                             child: const Text('Accepter'),
                                           ),
                                         ),
